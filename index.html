@@ -7,7 +7,8 @@
 
 <style>
 body{
-  margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
+  margin:0;height:100vh;
+  display:flex;justify-content:center;align-items:center;
   background:linear-gradient(120deg,#ff4d6d,#ffc1cc);
   font-family:'Pacifico',cursive;
   overflow:hidden;
@@ -17,62 +18,53 @@ body{
 .heart{position:fixed;top:-20px;font-size:22px;animation:fall linear infinite;}
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* envelope base */
+/* wrapper */
+.scene{position:relative;width:380px;height:300px;}
+
+/* envelope */
 .envelope{
-  position:relative;
-  width:360px;
-  height:240px;
+  position:absolute;bottom:0;left:0;right:0;
+  width:380px;height:220px;margin:auto;
 }
 
 /* back */
 .back{
   position:absolute;inset:0;
-  background:#ffd6dc;
-  border-radius:12px;
+  background:#ffd6dc;border-radius:12px;
   box-shadow:0 12px 25px rgba(0,0,0,.25);
-}
-
-/* letter (hidden) */
-.letter{
-  position:absolute;
-  left:20px;
-  right:20px;
-  bottom:20px;
-  height:180px;
-  background:white;
-  border-radius:10px;
-  padding:20px;
-  text-align:center;
-  color:#ff4d6d;
-  transform:translateY(100px);
-  transition:transform 1s ease;
   z-index:1;
 }
 
 /* front pocket */
 .front{
-  position:absolute;
-  bottom:0;left:0;right:0;
+  position:absolute;bottom:0;left:0;right:0;
   height:55%;
-  background:#ff8fa3;
-  border-radius:0 0 12px 12px;
-  z-index:2;
+  background:#ff8fa3;border-radius:0 0 12px 12px;
+  z-index:3;
 }
 
 /* flap */
 .flap{
-  position:absolute;
-  top:0;left:0;right:0;
+  position:absolute;top:0;left:0;right:0;
   height:50%;
-  background:#ff4d6d;
-  border-radius:12px 12px 0 0;
-  transform-origin:top;
-  transition:transform 1s ease;
-  z-index:3;
+  background:#ff4d6d;border-radius:12px 12px 0 0;
+  transform-origin:top;transition:transform 1s ease;
+  z-index:4;
 }
 
-/* open state */
-.envelope.open .letter{transform:translateY(-80px);}
+/* letter */
+.letter{
+  position:absolute;left:20px;right:20px;
+  bottom:30px;height:200px;
+  background:white;border-radius:10px;
+  padding:20px;text-align:center;color:#ff4d6d;
+  transform:translateY(120px);
+  transition:transform 1s ease;
+  z-index:2;
+}
+
+/* open */
+.envelope.open .letter{transform:translateY(-120px);}
 .envelope.open .flap{transform:rotateX(180deg);}
 
 input,button{
@@ -86,20 +78,20 @@ button{background:#ff4d6d;color:white;cursor:pointer;}
 
 <audio id="paper" src="paper.mp3"></audio>
 
-<div class="envelope" id="env" onclick="openEnv()">
-  <div class="back"></div>
-  <div class="flap"></div>
-
-  <div class="letter">
-    <h3>For You 💌</h3>
-    <p>Enter the secret code</p>
-    <input type="password" id="pass" placeholder="Our date 😏">
-    <br>
-    <button onclick="check(event)">Open</button>
-    <p id="msg"></p>
+<div class="scene">
+  <div class="envelope" id="env" onclick="openEnv()">
+    <div class="back"></div>
+    <div class="flap"></div>
+    <div class="letter">
+      <h3>For You 💌</h3>
+      <p>Enter the secret code</p>
+      <input type="password" id="pass" placeholder="Our date 😏">
+      <br>
+      <button onclick="check(event)">Open</button>
+      <p id="msg"></p>
+    </div>
+    <div class="front"></div>
   </div>
-
-  <div class="front"></div>
 </div>
 
 <script>
@@ -129,3 +121,4 @@ function check(e){
 
 </body>
 </html>
+
