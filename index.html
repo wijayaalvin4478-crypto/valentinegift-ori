@@ -2,123 +2,106 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For My Love 💖</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<title>For You 💌</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box;font-family:Montserrat}
 body{
-  margin:0;height:100vh;
-  display:flex;justify-content:center;align-items:center;
-  background:linear-gradient(120deg,#ff4d6d,#ffc1cc);
-  font-family:'Pacifico',cursive;
-  overflow:hidden;
+margin:0;height:100vh;
+display:flex;justify-content:center;align-items:center;
+background:linear-gradient(135deg,#ff4d6d,#ffd6e0);
+overflow:hidden;
 }
 
-/* hearts */
-.heart{position:fixed;top:-20px;font-size:22px;animation:fall linear infinite;}
-@keyframes fall{to{transform:translateY(110vh);}}
+.card{
+width:350px;height:280px;position:relative;cursor:pointer;
+}
 
-/* wrapper */
-.scene{position:relative;width:380px;height:300px;}
-
-/* envelope */
 .envelope{
-  position:absolute;bottom:0;left:0;right:0;
-  width:380px;height:220px;margin:auto;
+width:100%;height:100%;position:absolute;bottom:0;
+background:#e63946;border-radius:0 0 20px 20px;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+overflow:hidden;
 }
 
-/* back */
-.back{
-  position:absolute;inset:0;
-  background:#ffd6dc;border-radius:12px;
-  box-shadow:0 12px 25px rgba(0,0,0,.25);
-  z-index:1;
+.envelope::before{
+content:"";position:absolute;top:0;left:0;width:100%;height:100%;
+background:repeating-linear-gradient(
+45deg,
+rgba(255,255,255,.08),
+rgba(255,255,255,.08) 6px,
+transparent 6px,
+transparent 12px
+);
 }
 
-/* front pocket */
-.front{
-  position:absolute;bottom:0;left:0;right:0;
-  height:55%;
-  background:#ff8fa3;border-radius:0 0 12px 12px;
-  z-index:3;
-}
-
-/* flap */
 .flap{
-  position:absolute;top:0;left:0;right:0;
-  height:50%;
-  background:#ff4d6d;border-radius:12px 12px 0 0;
-  transform-origin:top;transition:transform 1s ease;
-  z-index:4;
+position:absolute;top:-2px;left:0;width:100%;height:55%;
+background:#ff6b81;
+clip-path:polygon(0 0,100% 0,50% 100%);
+transform-origin:top;
+transition:.8s;
+z-index:5;
 }
 
-/* letter */
 .letter{
-  position:absolute;left:20px;right:20px;
-  bottom:30px;height:200px;
-  background:white;border-radius:10px;
-  padding:20px;text-align:center;color:#ff4d6d;
-  transform:translateY(120px);
-  transition:transform 1s ease;
-  z-index:2;
+position:absolute;bottom:-100%;
+left:50%;transform:translateX(-50%);
+width:85%;height:200px;
+background:#fff;border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+padding:20px;text-align:center;
+transition:1s;
+z-index:3;
 }
 
-/* open */
-.envelope.open .letter{transform:translateY(-120px);}
-.envelope.open .flap{transform:rotateX(180deg);}
-
-input,button{
-  padding:10px;border:none;border-radius:10px;margin-top:10px;
+.letter h2{
+font-family:"Playfair Display",serif;
+color:#e63946;margin:0;
 }
-button{background:#ff4d6d;color:white;cursor:pointer;}
+
+.letter p{font-size:14px;color:#444}
+
+.open .flap{transform:rotateX(180deg);}
+.open .letter{bottom:40px;}
+
+.tap{
+position:absolute;bottom:-60px;width:100%;text-align:center;
+color:white;font-weight:bold;animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
 </style>
 </head>
 
 <body>
 
-<audio id="paper" src="paper.mp3"></audio>
-
-<div class="scene">
-  <div class="envelope" id="env" onclick="openEnv()">
-    <div class="back"></div>
-    <div class="flap"></div>
-    <div class="letter">
-      <h3>For You 💌</h3>
-      <p>Enter the secret code</p>
-      <input type="password" id="pass" placeholder="Our date 😏">
-      <br>
-      <button onclick="check(event)">Open</button>
-      <p id="msg"></p>
-    </div>
-    <div class="front"></div>
+<div class="card" onclick="openEnvelope()">
+  <div class="letter">
+    <h2>Hi My Love 💕</h2>
+    <p>Open your gifts & feel my love for you.</p>
   </div>
+
+  <div class="envelope">
+    <div class="flap"></div>
+  </div>
+
+  <div class="tap">Tap the envelope 💌</div>
 </div>
 
 <script>
-function openEnv(){
-  document.getElementById("env").classList.add("open");
-  document.getElementById("paper").play();
-}
-
-/* hearts */
-setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerText="💗";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=3+Math.random()*5+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),8000);
-},300);
-
-function check(e){
-  e.stopPropagation();
-  let p=document.getElementById("pass").value;
-  if(p==="sayang123"){window.location.href="gift.html";}
-  else{document.getElementById("msg").innerText="Wrong code 💔";}
+function openEnvelope(){
+document.querySelector(".card").classList.toggle("open");
 }
 </script>
 
 </body>
 </html>
+
 
