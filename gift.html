@@ -2,38 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Your Gifts 💖</title>
+<title>Valentine Gifts 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-/* --- Body & Background --- */
+/* --- Background & Hearts --- */
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg,#ff9aa2,#ffd1dc);
   font-family: 'Arial', sans-serif;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 40px;
+  justify-content: center;
+  background: linear-gradient(135deg,#ff9aa2,#ffd1dc);
+  overflow-x: hidden;
+  position: relative;
+}
+.heart {
+  position: absolute;
+  font-size: 24px;
+  animation: float 8s linear infinite;
+  opacity: 0.7;
+}
+@keyframes float {
+  0% {transform: translateY(100vh) scale(0.8);}
+  100% {transform: translateY(-10vh) scale(1);}
 }
 
 /* --- Heading --- */
-h1 {
-  font-size: 3em;
-  margin-bottom: 10px;
-  color: #fff;
-  text-shadow: 0 3px 6px rgba(0,0,0,0.2);
-}
-p {
-  font-size: 1.3em;
-  margin-bottom: 40px;
-  color: #fff;
-}
+h1 { font-size: 3em; color: #fff; text-shadow: 0 3px 6px rgba(0,0,0,0.2); margin-bottom: 10px;}
+p { font-size: 1.3em; color: #fff; margin-bottom: 40px;}
 
-/* --- Gifts Grid 2x2 --- */
+/* --- Gifts Grid --- */
 .gifts {
   display: grid;
   grid-template-columns: repeat(2, 200px);
@@ -41,10 +41,10 @@ p {
   gap: 30px;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
-
 .gift {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.7);
   backdrop-filter: blur(5px);
   border-radius: 25px;
   display: flex;
@@ -52,17 +52,17 @@ p {
   justify-content: center;
   align-items: center;
   padding: 25px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.2);
+  box-shadow: 0 10px 40px rgba(255,105,135,0.3);
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .gift:hover {
   transform: scale(1.15) rotate(-2deg);
-  box-shadow: 0 15px 50px rgba(0,0,0,.3);
+  box-shadow: 0 15px 50px rgba(255,105,135,0.4);
 }
-.gift span { font-size: 60px; margin-bottom: 10px; }
+.gift span { font-size: 60px; margin-top: 10px; color:#ff6b81; }
 
-/* --- Modal --- */
+/* --- Modals --- */
 .modal {
   position: fixed;
   top:0; left:0; right:0; bottom:0;
@@ -75,10 +75,7 @@ p {
   transition: opacity 0.4s ease;
   z-index: 1000;
 }
-.modal.active {
-  opacity:1;
-  pointer-events:auto;
-}
+.modal.active { opacity:1; pointer-events:auto; }
 .modal-content {
   background: white;
   padding: 30px;
@@ -92,11 +89,8 @@ p {
   opacity: 0;
   transition: transform 0.4s ease, opacity 0.4s ease;
 }
-.modal.active .modal-content {
-  transform: scale(1);
-  opacity: 1;
-}
-.modal-content h2 { margin-top: 0; }
+.modal.active .modal-content { transform: scale(1); opacity: 1; }
+.modal-content h2 { margin-top: 0; color:#ff6b81; }
 
 /* --- Close Button --- */
 .close-btn {
@@ -111,137 +105,88 @@ p {
 }
 .close-btn:hover { transform: rotate(90deg); }
 
-/* --- Modal Content Animations --- */
+/* --- Modal Content --- */
 .modal-content img,
-.modal-content video {
-  border-radius: 20px;
-  width: 90%;
-  max-width: 900px;
-  height: auto;
-  margin-top: 15px;
-  transform: translateY(20px);
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-.modal.active .modal-content img,
-.modal.active .modal-content video {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* --- Quiz Buttons --- */
+.modal-content video { border-radius: 20px; width: 90%; max-width: 900px; height: auto; margin-top: 15px;}
 .modal-content button {
-  margin: 10px;
-  padding: 12px 25px;
-  border-radius: 15px;
-  border: none;
-  cursor: pointer;
-  background: #ff9aa2;
-  color: white;
-  font-weight: bold;
-  font-size: 1em;
+  margin: 10px; padding: 12px 25px; border-radius: 15px; border: none;
+  cursor: pointer; background: #ff9aa2; color: white; font-weight: bold; font-size: 1em;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.modal-content button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 20px rgba(0,0,0,.3);
-}
+.modal-content button:hover { transform: scale(1.1); box-shadow: 0 5px 20px rgba(255,105,135,0.3);}
 
-/* --- Spotify Centered Minimal --- */
-.spotify {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 90px;
-  border-radius: 25px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,.25);
-  z-index: 999;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-.spotify:hover {
-  transform: translateX(-50%) translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,.35);
-}
-.spotify iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* --- Bouquet Drag & Drop --- */
-#bloom-container {
-  margin:20px 0;
-  display:flex;
-  gap:15px;
-  justify-content:center;
-}
+/* --- Bouquet --- */
+#bloom-container { margin:20px 0; display:flex; gap:15px; justify-content:center;}
 .flower.dragging { opacity: 0.5; }
 .bouquet-flower { position: absolute; font-size: 50px; cursor: grab; }
-#bouquetArea {
-  width:100%;
-  height:400px;
-  border:2px dashed #aaa;
-  border-radius:20px;
-  position:relative;
-  margin-top:15px;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(4px);
+#bouquetArea { width:100%; height:400px; border:2px dashed #aaa; border-radius:20px; position:relative; margin-top:15px; background: rgba(255,255,255,0.6); backdrop-filter: blur(4px);}
+#bouquetArea p { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#aaa; font-weight:bold;}
+
+/* --- Spotify Button + Hover Mini Player --- */
+.spotify-btn {
+  margin-top: 25px; padding: 10px 20px; border-radius: 15px;
+  background: #ff9aa2; color:white; font-weight:bold; cursor:pointer;
+  position: relative; z-index:20;
 }
-#bouquetArea p {
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  color:#aaa;
-  font-weight:bold;
+.spotify-btn:hover { transform: scale(1.1); }
+
+.spotify-mini {
+  position: absolute;
+  bottom: 50px; left: 50%; transform: translateX(-50%) translateY(20px);
+  width: 300px; height: 80px; border-radius: 20px; overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,.25);
+  opacity: 0; pointer-events:none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
+.spotify-btn:hover .spotify-mini {
+  opacity: 1;
+  pointer-events:auto;
+  transform: translateX(-50%) translateY(0);
+}
+.spotify-mini iframe { width:100%; height:100%; border:0;}
 </style>
 </head>
-
 <body>
 
 <h1>For You 💝</h1>
 <p>Choose your gift</p>
 
 <div class="gifts">
-  <!-- SVG modern icons -->
+  <!-- Photo -->
   <div class="gift" onclick="openGift('photo')">
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#ff6b81" viewBox="0 0 24 24">
-      <path d="M12 5c-3.86 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm8-13h-3.17l-1.83-2h-6l-1.83 2h-3.17c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-14c0-1.1-.9-2-2-2z"/>
-    </svg>
+    <span style="font-size:60px;">📸</span>
     <span>Photos</span>
   </div>
+  <!-- Video -->
   <div class="gift" onclick="openGift('video')">
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#ffb347" viewBox="0 0 24 24">
-      <path d="M17 10.5V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.5l4 4v-11l-4 4z"/>
-    </svg>
+    <span style="font-size:60px;">🎥</span>
     <span>Video</span>
   </div>
+  <!-- Quiz -->
   <div class="gift" onclick="openGift('quiz')">
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#ff4d6d" viewBox="0 0 24 24">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-    </svg>
+    <span style="font-size:60px;">💌</span>
     <span>Quiz</span>
   </div>
+  <!-- Flower -->
   <div class="gift" onclick="openGift('flower')">
-    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#ff9aa2" viewBox="0 0 24 24">
-      <path d="M12 2C10.34 2 9 3.34 9 5s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 12c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4z"/>
-    </svg>
+    <span style="font-size:60px;">🌸</span>
     <span>Flowers</span>
   </div>
 </div>
 
-<!-- Modal Gift -->
+<!-- Spotify Button with Hover Mini Player -->
+<div class="spotify-btn">🎵 Play Love Playlist
+  <div class="spotify-mini">
+    <iframe src="https://open.spotify.com/embed/playlist/00wKmQ69CcBYOZPghP0BjX?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+</div>
+
+<!-- Modals -->
 <div class="modal" id="giftModal">
   <div class="modal-content" id="modalContent">
     <button class="close-btn" onclick="closeGift()">✖</button>
   </div>
 </div>
-
-<!-- Modal Bouquet -->
 <div class="modal" id="flowerModal">
   <div class="modal-content" id="flowerContent">
     <button class="close-btn" onclick="closeFlower()">✖</button>
@@ -252,93 +197,68 @@ p {
       <div class="flower" draggable="true" data-type="🌻" style="font-size:50px; cursor:grab;">🌻</div>
       <div class="flower" draggable="true" data-type="💐" style="font-size:50px; cursor:grab;">💐</div>
     </div>
-    <div id="bouquetArea">
-      <p>Drag flowers here</p>
-    </div>
+    <div id="bouquetArea"><p>Drag flowers here</p></div>
   </div>
 </div>
 
-<!-- Spotify Minimal -->
-<div class="spotify">
-  <iframe 
-    src="https://open.spotify.com/embed/playlist/00wKmQ69CcBYOZPghP0BjX?utm_source=generator"
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy">
-  </iframe>
-</div>
-
 <script>
-// --- Gifts ---
+// Floating hearts
+for(let i=0;i<20;i++){
+  let heart = document.createElement('div');
+  heart.className='heart';
+  heart.style.left = Math.random()*100+'vw';
+  heart.style.fontSize = 20+Math.random()*20+'px';
+  heart.style.animationDuration = 5+Math.random()*5+'s';
+  heart.textContent='💖';
+  document.body.appendChild(heart);
+}
+
+// Gifts
 function openGift(type){
-  if(type === 'flower') return openFlower();
-
-  const modal = document.getElementById('giftModal');
-  const content = document.getElementById('modalContent');
-  let html = '';
-
+  if(type==='flower') return openFlower();
+  const modal=document.getElementById('giftModal');
+  const content=document.getElementById('modalContent');
+  let html='';
   switch(type){
-    case 'photo':
-      html = `<h2>📸 Your Photos</h2>
-              <img src="https://picsum.photos/800/500" alt="Photo">`;
-      break;
-    case 'video':
-      html = `<h2>🎥 Your Video</h2>
-              <video controls>
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>`;
-      break;
-    case 'quiz':
-      html = `<h2>💌 Fun Quiz</h2>
-              <p>What is your favorite color?</p>
-              <button onclick="alert('You chose Red! 💖')">Red</button>
-              <button onclick="alert('You chose Blue! 💙')">Blue</button>`;
-      break;
+    case 'photo': html=`<h2>📸 Your Photos</h2><img src="https://picsum.photos/800/500">`; break;
+    case 'video': html=`<h2>🎥 Your Video</h2><video controls><source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"></video>`; break;
+    case 'quiz': html=`<h2>💌 Fun Quiz</h2><p>What is your favorite color?</p>
+            <button onclick="alert('You chose Red! 💖')">Red</button>
+            <button onclick="alert('You chose Blue! 💙')">Blue</button>`; break;
   }
-
-  content.innerHTML = `<button class="close-btn" onclick="closeGift()">✖</button>` + html;
+  content.innerHTML=`<button class="close-btn" onclick="closeGift()">✖</button>`+html;
   modal.classList.add('active');
 }
-function closeGift(){
-  document.getElementById('giftModal').classList.remove('active');
-}
+function closeGift(){document.getElementById('giftModal').classList.remove('active');}
 
-// --- Bouquet Flowers ---
-function openFlower() {
-  document.getElementById('flowerModal').classList.add('active');
-}
-function closeFlower() {
-  document.getElementById('flowerModal').classList.remove('active');
-}
+// Flower
+function openFlower(){document.getElementById('flowerModal').classList.add('active');}
+function closeFlower(){document.getElementById('flowerModal').classList.remove('active');}
 
-// Drag & Drop Bunga
-const flowers = document.querySelectorAll('#bloom-container .flower');
-const bouquetArea = document.getElementById('bouquetArea');
-
-flowers.forEach(flower => {
-  flower.addEventListener('dragstart', e => {
+// Bouquet drag-drop
+const flowers=document.querySelectorAll('#bloom-container .flower');
+const bouquetArea=document.getElementById('bouquetArea');
+flowers.forEach(flower=>{
+  flower.addEventListener('dragstart', e=>{
     e.dataTransfer.setData('text/plain', flower.dataset.type);
     flower.classList.add('dragging');
   });
-  flower.addEventListener('dragend', e => flower.classList.remove('dragging'));
+  flower.addEventListener('dragend', e=>flower.classList.remove('dragging'));
 });
-
-bouquetArea.addEventListener('dragover', e => e.preventDefault());
-bouquetArea.addEventListener('drop', e => {
+bouquetArea.addEventListener('dragover', e=>e.preventDefault());
+bouquetArea.addEventListener('drop', e=>{
   e.preventDefault();
-  const type = e.dataTransfer.getData('text/plain');
-  const x = e.offsetX;
-  const y = e.offsetY;
-
-  const newFlower = document.createElement('div');
-  newFlower.textContent = type;
-  newFlower.className = 'bouquet-flower';
-  newFlower.style.left = x + 'px';
-  newFlower.style.top = y + 'px';
+  const type=e.dataTransfer.getData('text/plain');
+  const x=e.offsetX;
+  const y=e.offsetY;
+  const newFlower=document.createElement('div');
+  newFlower.textContent=type;
+  newFlower.className='bouquet-flower';
+  newFlower.style.left=x+'px';
+  newFlower.style.top=y+'px';
   bouquetArea.appendChild(newFlower);
-
-  newFlower.draggable = true;
-  newFlower.addEventListener('dragstart', e => {
+  newFlower.draggable=true;
+  newFlower.addEventListener('dragstart', e=>{
     e.dataTransfer.setData('text/plain', type);
     e.dataTransfer.setData('offsetX', e.offsetX);
     e.dataTransfer.setData('offsetY', e.offsetY);
