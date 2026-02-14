@@ -3,9 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <title>Your Gift 💝</title>
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:linear-gradient(120deg,#ff9a9e,#fad0c4);
+  color:white;
+  text-align:center;
+}
+h1{margin-top:30px;}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+  max-width:500px;
+  margin:40px auto;
+}
+.card{
+  background:rgba(255,255,255,0.2);
+  padding:30px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.card:hover{transform:scale(1.05);}
+.content{display:none;padding:20px;}
+button{
+  background:#ff4d6d;color:white;border:none;padding:10px 20px;border-radius:10px;
+}
+#garden span{font-size:30px;margin:5px;}
+</style>
 </head>
-<body style="background:#ffdee9;text-align:center;font-family:sans-serif;">
-<h1>Welcome My Love 💖</h1>
-<p>You found the secret place 😭</p>
+
+<body>
+<h1>Choose Your Gift 💖</h1>
+
+<div class="grid">
+  <div class="card" onclick="show('video')">🎥 Video</div>
+  <div class="card" onclick="show('photo')">📸 Photos</div>
+  <div class="card" onclick="show('note')">💌 Leave a Note</div>
+  <div class="card" onclick="show('flower')">🌸 Flowers</div>
+</div>
+
+<div id="video" class="content">
+  <h2>Our Video 🎥</h2>
+  <video width="300" controls>
+    <source src="video.mp4" type="video/mp4">
+  </video><br><br>
+  <button onclick="back()">Back</button>
+</div>
+
+<div id="photo" class="content">
+  <h2>Our Memories 📸</h2>
+  <img src="photo1.jpg" width="150">
+  <img src="photo2.jpg" width="150"><br><br>
+  <button onclick="back()">Back</button>
+</div>
+
+<div id="note" class="content">
+  <h2>Leave a Note 💌</h2>
+  <textarea id="msg" placeholder="Write something..." style="width:80%;height:80px;"></textarea><br><br>
+  <button onclick="saveNote()">Send</button>
+  <p id="saved"></p><br>
+  <button onclick="back()">Back</button>
+</div>
+
+<div id="flower" class="content">
+  <h2>Virtual Flowers 🌸</h2>
+  <button onclick="addFlower()">Send Flower</button>
+  <div id="garden"></div><br>
+  <button onclick="back()">Back</button>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
+  document.querySelector('.grid').style.display='none';
+  document.getElementById(id).style.display='block';
+}
+function back(){
+  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
+  document.querySelector('.grid').style.display='grid';
+}
+function addFlower(){
+  let f=document.createElement("span");
+  f.innerText="🌸";
+  document.getElementById("garden").appendChild(f);
+}
+function saveNote(){
+  let t=document.getElementById("msg").value;
+  document.getElementById("saved").innerText="Sent: "+t+" 💖";
+}
+</script>
 </body>
 </html>
