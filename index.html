@@ -27,6 +27,11 @@ background:#e63946;border-radius:0 0 20px 20px;
 box-shadow:0 15px 40px rgba(0,0,0,.3);overflow:hidden;z-index:2;
 }
 
+.envelope::before{
+content:"";position:absolute;inset:0;
+background:repeating-linear-gradient(45deg,rgba(255,255,255,.08),rgba(255,255,255,.08) 6px,transparent 6px,transparent 12px);
+}
+
 .flap{
 position:absolute;top:-2px;left:0;width:100%;height:55%;
 background:#ff6b81;clip-path:polygon(0 0,100% 0,50% 100%);
@@ -43,14 +48,8 @@ padding:20px;text-align:center;transition:1s;z-index:1;
 .open .flap{transform:rotateX(180deg);}
 .open .letter{bottom:240px;}
 
-input{
-width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;
-}
-
-button{
-margin-top:10px;padding:10px 20px;border:none;border-radius:20px;
-background:#ff4d6d;color:white;font-weight:bold;cursor:pointer;
-}
+.letter input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:10px;}
+.letter button{margin-top:10px;padding:10px 20px;border:none;border-radius:20px;background:#ff4d6d;color:white;font-weight:bold;cursor:pointer;}
 
 .tap{position:absolute;bottom:-60px;width:100%;text-align:center;color:white;font-weight:bold;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
