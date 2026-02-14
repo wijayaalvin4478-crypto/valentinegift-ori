@@ -13,56 +13,66 @@ body{
   overflow:hidden;
 }
 
-/* falling hearts */
+/* hearts */
 .heart{position:fixed;top:-20px;font-size:22px;animation:fall linear infinite;}
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* envelope wrapper */
+/* envelope base */
 .envelope{
   position:relative;
-  width:380px;height:260px;
+  width:360px;
+  height:240px;
 }
 
-/* back of envelope */
+/* back */
 .back{
   position:absolute;inset:0;
   background:#ffd6dc;
   border-radius:12px;
-  box-shadow:0 15px 30px rgba(0,0,0,.25);
+  box-shadow:0 12px 25px rgba(0,0,0,.25);
 }
 
-/* flap top */
-.flap{
-  position:absolute;top:0;left:0;right:0;
-  height:50%;
-  background:#ff4d6d;
-  clip-path:polygon(0 0,100% 0,50% 100%);
-  transform-origin:top;
-  transition:transform 1s;
-  z-index:3;
+/* letter (hidden) */
+.letter{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:20px;
+  height:180px;
+  background:white;
+  border-radius:10px;
+  padding:20px;
+  text-align:center;
+  color:#ff4d6d;
+  transform:translateY(100px);
+  transition:transform 1s ease;
+  z-index:1;
 }
 
 /* front pocket */
 .front{
-  position:absolute;bottom:0;left:0;right:0;
+  position:absolute;
+  bottom:0;left:0;right:0;
   height:55%;
   background:#ff8fa3;
-  clip-path:polygon(0 100%,100% 100%,50% 0);
+  border-radius:0 0 12px 12px;
   z-index:2;
 }
 
-/* letter */
-.letter{
-  position:absolute;left:20px;right:20px;bottom:20px;
-  height:200px;background:white;border-radius:10px;
-  padding:20px;text-align:center;color:#ff4d6d;
-  transform:translateY(140px);
-  transition:transform 1.2s ease;
-  z-index:1;
+/* flap */
+.flap{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:50%;
+  background:#ff4d6d;
+  border-radius:12px 12px 0 0;
+  transform-origin:top;
+  transition:transform 1s ease;
+  z-index:3;
 }
 
 /* open state */
-.envelope.open .letter{transform:translateY(-120px);}
+.envelope.open .letter{transform:translateY(-80px);}
 .envelope.open .flap{transform:rotateX(180deg);}
 
 input,button{
@@ -79,6 +89,7 @@ button{background:#ff4d6d;color:white;cursor:pointer;}
 <div class="envelope" id="env" onclick="openEnv()">
   <div class="back"></div>
   <div class="flap"></div>
+
   <div class="letter">
     <h3>For You 💌</h3>
     <p>Enter the secret code</p>
@@ -87,6 +98,7 @@ button{background:#ff4d6d;color:white;cursor:pointer;}
     <button onclick="check(event)">Open</button>
     <p id="msg"></p>
   </div>
+
   <div class="front"></div>
 </div>
 
@@ -117,4 +129,3 @@ function check(e){
 
 </body>
 </html>
-
