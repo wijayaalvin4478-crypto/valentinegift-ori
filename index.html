@@ -13,44 +13,57 @@ body{
   overflow:hidden;
 }
 
-/* subtle paper texture */
-.paper{
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,0.03),
-      rgba(255,255,255,0.03) 1px,
-      rgba(0,0,0,0.02) 2px
-    );
-}
-
-/* hearts */
-.heart{
-  position:fixed;top:-20px;font-size:22px;animation:fall linear infinite;
-}
+/* falling hearts */
+.heart{position:fixed;top:-20px;font-size:22px;animation:fall linear infinite;}
 @keyframes fall{to{transform:translateY(110vh);}}
 
-/* envelope */
+/* envelope wrapper */
 .envelope{
-  width:380px;height:260px;position:relative;cursor:pointer;
+  position:relative;
+  width:380px;height:260px;
 }
+
+/* back of envelope */
 .back{
-  width:100%;height:100%;background:#ffd6dc;border-radius:12px;
+  position:absolute;inset:0;
+  background:#ffd6dc;
+  border-radius:12px;
+  box-shadow:0 15px 30px rgba(0,0,0,.25);
 }
+
+/* flap top */
+.flap{
+  position:absolute;top:0;left:0;right:0;
+  height:50%;
+  background:#ff4d6d;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:transform 1s;
+  z-index:3;
+}
+
+/* front pocket */
 .front{
-  position:absolute;bottom:0;width:0;height:0;
-  border-left:190px solid transparent;
-  border-right:190px solid transparent;
-  border-top:130px solid #ff4d6d;
+  position:absolute;bottom:0;left:0;right:0;
+  height:55%;
+  background:#ff8fa3;
+  clip-path:polygon(0 100%,100% 100%,50% 0);
+  z-index:2;
 }
+
+/* letter */
 .letter{
-  position:absolute;left:15px;top:30px;
-  width:350px;height:210px;background:white;border-radius:10px;
+  position:absolute;left:20px;right:20px;bottom:20px;
+  height:200px;background:white;border-radius:10px;
   padding:20px;text-align:center;color:#ff4d6d;
   transform:translateY(140px);
-  transition:transform 1s cubic-bezier(.2,.8,.3,1);
+  transition:transform 1.2s ease;
+  z-index:1;
 }
-.envelope.open .letter{transform:translateY(-90px);}
+
+/* open state */
+.envelope.open .letter{transform:translateY(-120px);}
+.envelope.open .flap{transform:rotateX(180deg);}
 
 input,button{
   padding:10px;border:none;border-radius:10px;margin-top:10px;
@@ -63,11 +76,10 @@ button{background:#ff4d6d;color:white;cursor:pointer;}
 
 <audio id="paper" src="paper.mp3"></audio>
 
-<div class="envelope paper" id="env" onclick="openEnv()">
-  <div class="back paper"></div>
-  <div class="front"></div>
-
-  <div class="letter paper">
+<div class="envelope" id="env" onclick="openEnv()">
+  <div class="back"></div>
+  <div class="flap"></div>
+  <div class="letter">
     <h3>For You 💌</h3>
     <p>Enter the secret code</p>
     <input type="password" id="pass" placeholder="Our date 😏">
@@ -75,6 +87,7 @@ button{background:#ff4d6d;color:white;cursor:pointer;}
     <button onclick="check(event)">Open</button>
     <p id="msg"></p>
   </div>
+  <div class="front"></div>
 </div>
 
 <script>
@@ -104,3 +117,4 @@ function check(e){
 
 </body>
 </html>
+
