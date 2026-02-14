@@ -16,7 +16,7 @@ overflow:hidden;
 }
 
 .card{
-width:350px;height:280px;position:relative;cursor:pointer;
+width:360px;height:260px;position:relative;cursor:pointer;
 }
 
 .envelope{
@@ -24,6 +24,7 @@ width:100%;height:100%;position:absolute;bottom:0;
 background:#e63946;border-radius:0 0 20px 20px;
 box-shadow:0 15px 40px rgba(0,0,0,.3);
 overflow:hidden;
+z-index:2;
 }
 
 .envelope::before{
@@ -43,18 +44,20 @@ background:#ff6b81;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:.8s;
-z-index:5;
+z-index:3;
 }
 
 .letter{
-position:absolute;bottom:-100%;
-left:50%;transform:translateX(-50%);
+position:absolute;
+bottom:-220px;
+left:50%;
+transform:translateX(-50%);
 width:85%;height:200px;
 background:#fff;border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,.2);
 padding:20px;text-align:center;
 transition:1s;
-z-index:3;
+z-index:1;
 }
 
 .letter h2{
@@ -100,6 +103,10 @@ function openEnvelope(){
 document.querySelector(".card").classList.toggle("open");
 }
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
