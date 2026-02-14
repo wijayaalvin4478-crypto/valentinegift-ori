@@ -6,36 +6,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-margin:0;
-min-height:100vh;
-background:linear-gradient(135deg,#ff9aa2,#ffd1dc);
-font-family:Arial, sans-serif;
-text-align:center;
-padding:40px;
+/* --- Basic Styles --- */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg,#ff9aa2,#ffd1dc);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 40px;
+  overflow-x: hidden;
 }
 
-.gifts{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:25px;
-max-width:700px;
-margin:auto;
+h1 { font-size: 2.5em; margin-bottom: 10px; }
+p { font-size: 1.2em; margin-bottom: 30px; }
+
+/* --- Gifts Grid --- */
+.gifts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 25px;
+  max-width: 700px;
+  margin: auto;
 }
 
-.gift{
-background:white;border-radius:20px;padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.2);
-cursor:pointer;transition:.3s;
+.gift {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  cursor: pointer;
+  transition: .3s;
 }
-.gift:hover{transform:scale(1.05);}
-.gift span{font-size:40px;display:block}
+.gift:hover { transform: scale(1.05); }
+.gift span { font-size: 40px; display: block; margin-bottom: 10px; }
 
-/* Spotify */
-.spotify{
-position:fixed;bottom:15px;right:15px;width:300px;
-z-index:999;box-shadow:0 10px 30px rgba(0,0,0,.3);
-border-radius:12px;overflow:hidden;
+/* --- Modal --- */
+.modal {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.3s;
+  z-index: 1000;
+}
+.modal.active {
+  opacity:1;
+  pointer-events:auto;
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  text-align: center;
+  position: relative;
+}
+.modal-content h2 { margin-top: 0; }
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.5em;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* --- Spotify Minimal --- */
+.spotify {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 260px;
+  height: 80px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0,0,0,.3);
+  z-index: 999;
+}
+.spotify iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 </style>
 </head>
@@ -52,23 +110,63 @@ border-radius:12px;overflow:hidden;
   <div class="gift" onclick="openGift('flower')"><span>🌸</span>Flowers</div>
 </div>
 
+<!-- Modal Popup -->
+<div class="modal" id="giftModal">
+  <div class="modal-content" id="modalContent">
+    <button class="close-btn" onclick="closeGift()">✖</button>
+    <!-- Dynamic content goes here -->
+  </div>
+</div>
+
+<!-- Minimal Spotify -->
 <div class="spotify">
-  <iframe style="border-radius:12px"
+  <iframe 
     src="https://open.spotify.com/embed/playlist/00wKmQ69CcBYOZPghP0BjX?utm_source=generator"
-    width="100%" height="352" frameborder="0"
     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy"></iframe>
+    loading="lazy">
+  </iframe>
 </div>
 
 <script>
 function openGift(type){
-alert("Next: "+type+" page 💕");
+  const modal = document.getElementById('giftModal');
+  const content = document.getElementById('modalContent');
+  let html = '';
+
+  switch(type){
+    case 'photo':
+      html = `<h2>📸 Your Photos</h2>
+              <img src="https://picsum.photos/400/250" alt="Photo" style="border-radius:15px; max-width:100%; margin-top:15px;">`;
+      break;
+    case 'video':
+      html = `<h2>🎥 Your Video</h2>
+              <video controls style="max-width:100%; border-radius:15px; margin-top:15px;">
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>`;
+      break;
+    case 'quiz':
+      html = `<h2>💌 Fun Quiz</h2>
+              <p>What is your favorite color?</p>
+              <button onclick="alert('You chose Red! 💖')">Red</button>
+              <button onclick="alert('You chose Blue! 💙')">Blue</button>`;
+      break;
+    case 'flower':
+      html = `<h2>🌸 Flowers</h2>
+              <img src="https://picsum.photos/seed/flower/400/250" alt="Flower" style="border-radius:15px; max-width:100%; margin-top:15px;">`;
+      break;
+    default:
+      html = `<p>Oops! No gift found.</p>`;
+  }
+
+  content.innerHTML = `<button class="close-btn" onclick="closeGift()">✖</button>` + html;
+  modal.classList.add('active');
+}
+
+function closeGift(){
+  document.getElementById('giftModal').classList.remove('active');
 }
 </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
