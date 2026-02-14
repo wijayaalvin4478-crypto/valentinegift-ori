@@ -2,118 +2,73 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Your Gift 💝</title>
+<title>Your Gifts 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  margin:0;
-  font-family:sans-serif;
-  background:linear-gradient(120deg,#ff9a9e,#fad0c4);
-  color:white;
-  text-align:center;
+margin:0;
+min-height:100vh;
+background:linear-gradient(135deg,#ff9aa2,#ffd1dc);
+font-family:Arial, sans-serif;
+text-align:center;
+padding:40px;
 }
-h1{margin-top:30px;}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:20px;
-  max-width:500px;
-  margin:40px auto;
+
+.gifts{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:25px;
+max-width:700px;
+margin:auto;
 }
-.card{
-  background:rgba(255,255,255,0.25);
-  padding:30px;
-  border-radius:20px;
-  cursor:pointer;
-  transition:.3s;
-  font-size:20px;
+
+.gift{
+background:white;border-radius:20px;padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+cursor:pointer;transition:.3s;
 }
-.card:hover{transform:scale(1.05);}
-.content{display:none;padding:20px;}
-button{
-  background:#ff4d6d;color:white;border:none;
-  padding:10px 20px;border-radius:10px;cursor:pointer;
+.gift:hover{transform:scale(1.05);}
+.gift span{font-size:40px;display:block}
+
+/* Spotify */
+.spotify{
+position:fixed;bottom:15px;right:15px;width:300px;
+z-index:999;box-shadow:0 10px 30px rgba(0,0,0,.3);
+border-radius:12px;overflow:hidden;
 }
-input{padding:8px;border-radius:8px;border:none;}
-#garden span{font-size:30px;margin:5px;}
 </style>
 </head>
 
 <body>
 
-<h1>Choose Your Gift 💖</h1>
+<h1>For You 💝</h1>
+<p>Choose your gift</p>
 
-<div class="grid" id="menu">
-  <div class="card" onclick="show('video')">🎥 Video</div>
-  <div class="card" onclick="show('photo')">📸 Photos</div>
-  <div class="card" onclick="show('quiz')">💘 Love Quiz</div>
-  <div class="card" onclick="show('flower')">🌸 Flowers</div>
+<div class="gifts">
+  <div class="gift" onclick="openGift('photo')"><span>📸</span>Photos</div>
+  <div class="gift" onclick="openGift('video')"><span>🎥</span>Video</div>
+  <div class="gift" onclick="openGift('quiz')"><span>💌</span>Quiz</div>
+  <div class="gift" onclick="openGift('flower')"><span>🌸</span>Flowers</div>
 </div>
 
-<!-- VIDEO -->
-<div id="video" class="content">
-  <h2>Our Video 🎥</h2>
-  <video width="300" controls>
-    <source src="video.mp4" type="video/mp4">
-  </video><br><br>
-  <button onclick="back()">Back</button>
-</div>
-
-<!-- PHOTOS -->
-<div id="photo" class="content">
-  <h2>Our Memories 📸</h2>
-  <img src="photo1.jpg" width="150">
-  <img src="photo2.jpg" width="150"><br><br>
-  <button onclick="back()">Back</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" class="content">
-  <h2>Love Quiz 💘</h2>
-
-  <p>Where did we first meet?</p>
-  <input id="q1"><br><br>
-
-  <p>What is our song?</p>
-  <input id="q2"><br><br>
-
-  <p>When is our anniversary?</p>
-  <input id="q3"><br><br>
-
-  <button onclick="checkQuiz()">Submit</button>
-  <p id="quizResult"></p><br>
-
-  <button onclick="back()">Back</button>
-</div>
-
-<!-- FLOWERS -->
-<div id="flower" class="content">
-  <h2>Virtual Flowers 🌸</h2>
-  <button onclick="addFlower()">Send Flower</button>
-  <div id="garden"></div><br>
-  <button onclick="back()">Back</button>
+<div class="spotify">
+  <iframe style="border-radius:12px"
+    src="https://open.spotify.com/embed/playlist/00wKmQ69CcBYOZPghP0BjX?utm_source=generator"
+    width="100%" height="352" frameborder="0"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    loading="lazy"></iframe>
 </div>
 
 <script>
-function show(id){
-  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
-  document.getElementById("menu").style.display="none";
-  document.getElementById(id).style.display="block";
-}
-function back(){
-  document.querySelectorAll('.content').forEach(c=>c.style.display='none');
-  document.getElementById("menu").style.display="grid";
-}
-function addFlower(){
-  let f=document.createElement("span");
-  f.innerText="🌸";
-  document.getElementById("garden").appendChild(f);
-}
-function checkQuiz(){
-  document.getElementById("quizResult").innerText =
-  "No matter your answers… I choose you every day 💖";
+function openGift(type){
+alert("Next: "+type+" page 💕");
 }
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
