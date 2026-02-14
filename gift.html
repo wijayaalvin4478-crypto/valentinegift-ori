@@ -155,6 +155,31 @@ p { font-size: 1.2em; margin-bottom: 30px; }
   height: 100%;
   border: 0;
 }
+
+/* --- Bouquet Drag & Drop --- */
+#bloom-container {
+  margin:20px 0;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+.flower.dragging { opacity: 0.5; }
+.bouquet-flower { position: absolute; font-size: 40px; cursor: grab; }
+#bouquetArea {
+  width:100%;
+  height:300px;
+  border:2px dashed #aaa;
+  border-radius:15px;
+  position:relative;
+  margin-top:15px;
+}
+#bouquetArea p {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#aaa;
+}
 </style>
 </head>
 
@@ -177,6 +202,23 @@ p { font-size: 1.2em; margin-bottom: 30px; }
   </div>
 </div>
 
+<!-- Modal Bouquet -->
+<div class="modal" id="flowerModal">
+  <div class="modal-content" id="flowerContent">
+    <button class="close-btn" onclick="closeFlower()">✖</button>
+    <h2>🌸 Create Your Bouquet</h2>
+    <div id="bloom-container">
+      <div class="flower" draggable="true" data-type="🌹" style="font-size:40px; cursor:grab;">🌹</div>
+      <div class="flower" draggable="true" data-type="🌷" style="font-size:40px; cursor:grab;">🌷</div>
+      <div class="flower" draggable="true" data-type="🌻" style="font-size:40px; cursor:grab;">🌻</div>
+      <div class="flower" draggable="true" data-type="💐" style="font-size:40px; cursor:grab;">💐</div>
+    </div>
+    <div id="bouquetArea">
+      <p>Drag flowers here</p>
+    </div>
+  </div>
+</div>
+
 <!-- Minimal Spotify -->
 <div class="spotify">
   <iframe 
@@ -187,7 +229,10 @@ p { font-size: 1.2em; margin-bottom: 30px; }
 </div>
 
 <script>
+// --- Gifts ---
 function openGift(type){
+  if(type === 'flower') return openFlower();
+
   const modal = document.getElementById('giftModal');
   const content = document.getElementById('modalContent');
   let html = '';
@@ -210,23 +255,60 @@ function openGift(type){
               <button onclick="alert('You chose Red! 💖')">Red</button>
               <button onclick="alert('You chose Blue! 💙')">Blue</button>`;
       break;
-    case 'flower':
-      html = `<h2>🌸 Flowers</h2>
-              <img src="https://picsum.photos/seed/flower/400/250" alt="Flower">`;
-      break;
-    default:
-      html = `<p>Oops! No gift found.</p>`;
   }
 
   content.innerHTML = `<button class="close-btn" onclick="closeGift()">✖</button>` + html;
   modal.classList.add('active');
 }
-
 function closeGift(){
   document.getElementById('giftModal').classList.remove('active');
 }
+
+// --- Bouquet Flowers ---
+function openFlower() {
+  document.getElementById('flowerModal').classList.add('active');
+}
+function closeFlower() {
+  document.getElementById('flowerModal').classList.remove('active');
+}
+
+// Drag & Drop Bunga
+const flowers = document.querySelectorAll('#bloom-container .flower');
+const bouquetArea = document.getElementById('bouquetArea');
+
+flowers.forEach(flower => {
+  flower.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', flower.dataset.type);
+    flower.classList.add('dragging');
+  });
+  flower.addEventListener('dragend', e => flower.classList.remove('dragging'));
+});
+
+bouquetArea.addEventListener('dragover', e => e.preventDefault());
+bouquetArea.addEventListener('drop', e => {
+  e.preventDefault();
+  const type = e.dataTransfer.getData('text/plain');
+  const x = e.offsetX;
+  const y = e.offsetY;
+
+  const newFlower = document.createElement('div');
+  newFlower.textContent = type;
+  newFlower.className = 'bouquet-flower';
+  newFlower.style.left = x + 'px';
+  newFlower.style.top = y + 'px';
+  bouquetArea.appendChild(newFlower);
+
+  // Optional: draggable bouquet flowers
+  newFlower.draggable = true;
+  newFlower.addEventListener('dragstart', e => {
+    e.dataTransfer.setData('text/plain', type);
+    e.dataTransfer.setData('offsetX', e.offsetX);
+    e.dataTransfer.setData('offsetY', e.offsetY);
+  });
+});
 </script>
 
 </body>
 </html>
+
 
