@@ -23,7 +23,7 @@ body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.55);
 }
 
 /* Title */
@@ -39,52 +39,16 @@ letter-spacing:4px;
 z-index:2;
 }
 
-/* Hearts */
-#hearts{
-position:absolute;
-inset:0;
-pointer-events:none;
-z-index:1;
-}
-
-.heart{
-position:absolute;
-width:12px;
-height:12px;
-background:rgba(255,192,203,.4);
-transform:rotate(45deg);
-animation:float 10s linear infinite;
-}
-
-.heart::before,.heart::after{
-content:"";
-position:absolute;
-width:12px;
-height:12px;
-background:rgba(255,192,203,.4);
-border-radius:50%;
-}
-
-.heart::before{top:-6px;}
-.heart::after{left:-6px;}
-
-@keyframes float{
-0%{transform:translateY(100vh) rotate(45deg);opacity:0;}
-10%{opacity:1;}
-100%{transform:translateY(-10vh) rotate(45deg);opacity:0;}
-}
-
-/* Envelope Wrapper */
+/* Envelope wrapper */
 .wrapper{
 position:relative;
 width:360px;
 height:260px;
 z-index:3;
 cursor:pointer;
-transition:.6s;
 }
 
-/* Envelope Body */
+/* Envelope */
 .envelope{
 position:absolute;
 bottom:0;
@@ -92,7 +56,6 @@ width:100%;
 height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
-overflow:hidden;
 }
 
 /* Flap */
@@ -105,67 +68,59 @@ background:#ff4d6d;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:.8s ease;
-z-index:5;
+z-index:4;
 }
 
 .open .flap{
 transform:rotateX(180deg);
 }
 
-/* Letter INSIDE envelope */
+/* Letter */
 .letter{
 position:absolute;
+left:50%;
+top:120px;
+transform:translate(-50%,100%);
 width:300px;
 height:200px;
 background:#fff;
 border-radius:12px;
 box-shadow:0 15px 40px rgba(0,0,0,.4);
-left:50%;
-top:110px; /* posisi mulut envelope */
-transform:translate(-50%,130%);
-transition:transform .8s cubic-bezier(.22,1,.36,1);
-z-index:4;
+transition:all .8s cubic-bezier(.22,1,.36,1);
 padding:20px;
 text-align:center;
+z-index:3;
 }
 
-/* peek keluar sedikit */
+/* peek */
 .peek{
-transform:translate(-50%,30%);
+transform:translate(-50%,40%);
 }
 
-/* keluar penuh */
+/* full */
 .full{
-transform:translate(-50%,-70%);
+transform:translate(-50%,-40%);
 }
 
-/* envelope fade */
-.hide-envelope{
-opacity:0;
-}
-
-/* terbang tetap center */
+/* fly */
 .fly{
-animation:flyToCamera 2s cubic-bezier(.22,1,.36,1) forwards;
+transform:translate(-50%,-60%) scale(1.5);
+transition:all 1.8s ease;
 }
 
-@keyframes flyToCamera{
-0%{
-transform:translate(-50%,-70%) scale(1);
-}
-100%{
-transform:translate(-50%,-90%) scale(1.6);
-}
+/* hide envelope */
+.hide{
+visibility:hidden;
 }
 
 /* Blur */
 .blur{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(10px);
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(8px);
 opacity:0;
-transition:.6s;
+transition:.5s;
 z-index:2;
 }
 .blur.active{opacity:1;}
@@ -182,19 +137,18 @@ cursor:pointer;
 
 <body>
 
-<div id="hearts"></div>
 <h1 class="title">Happy Valentine's Day</h1>
 
 <div class="wrapper" id="wrapper">
-  <div class="envelope">
-    <div class="letter" id="letter">
-      <h3>Enter Password 💖</h3>
-      <input type="password" id="pass" placeholder="tanggal jadian...">
-      <br>
-      <button onclick="checkPass(event)">Open</button>
-    </div>
-  </div>
+  <div class="envelope"></div>
   <div class="flap"></div>
+
+  <div class="letter" id="letter">
+    <h3>Enter Password 💖</h3>
+    <input type="password" id="pass">
+    <br>
+    <button onclick="checkPass(event)">Open</button>
+  </div>
 </div>
 
 <div class="blur" id="blur"></div>
@@ -203,16 +157,6 @@ cursor:pointer;
 const PASSWORD="220724";
 let opened=false;
 
-/* hearts generator */
-setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.style.left=Math.random()*100+"vw";
-document.getElementById("hearts").appendChild(h);
-setTimeout(()=>h.remove(),10000);
-},1000);
-
-/* open envelope */
 document.getElementById("wrapper").addEventListener("click",(e)=>{
 if(e.target.closest(".letter")) return;
 if(opened) return;
@@ -226,7 +170,6 @@ document.getElementById("letter").classList.add("peek");
 opened=true;
 });
 
-/* password */
 function checkPass(e){
 e.stopPropagation();
 
@@ -237,22 +180,19 @@ let letter=document.getElementById("letter");
 letter.classList.remove("peek");
 letter.classList.add("full");
 
-/* envelope fade */
-document.getElementById("wrapper").classList.add("hide-envelope");
-
 setTimeout(()=>{
+document.querySelector(".envelope").classList.add("hide");
+document.querySelector(".flap").classList.add("hide");
 letter.classList.add("fly");
-document.getElementById("blur").classList.add("active");
-},700);
+},600);
 
 setTimeout(()=>{
+document.getElementById("blur").classList.add("active");
 startType();
 },2000);
-
 }
 }
 
-/* typewriter */
 function startType(){
 const text="Will you be my Valentine?";
 let i=0;
@@ -272,6 +212,7 @@ type();
 
 </body>
 </html>
+
 
 
 
