@@ -20,7 +20,7 @@ overflow:hidden;
 position:relative;
 }
 
-/* Netflix cinematic overlay */
+/* Cinematic overlay */
 body::before{
 content:"";
 position:fixed;
@@ -57,26 +57,26 @@ from{opacity:0;transform:translateY(20px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-/* Floating aesthetic hearts */
+/* Hearts aesthetic */
 .heart{
 position:fixed;
-width:20px;
-height:20px;
-background:rgba(255,182,193,.4);
+width:18px;
+height:18px;
+background:rgba(255,182,193,.35);
 transform:rotate(45deg);
-animation:float 12s linear infinite;
+animation:float 14s linear infinite;
 }
 .heart::before,
 .heart::after{
 content:"";
 position:absolute;
-width:20px;
-height:20px;
-background:rgba(255,182,193,.4);
+width:18px;
+height:18px;
+background:rgba(255,182,193,.35);
 border-radius:50%;
 }
-.heart::before{top:-10px;left:0;}
-.heart::after{left:-10px;top:0;}
+.heart::before{top:-9px;left:0;}
+.heart::after{left:-9px;top:0;}
 
 @keyframes float{
 from{transform:translateY(100vh) rotate(45deg);}
@@ -88,6 +88,7 @@ to{transform:translateY(-10vh) rotate(45deg);}
 width:360px;
 height:260px;
 position:relative;
+cursor:pointer;
 }
 
 /* Envelope */
@@ -125,7 +126,7 @@ transform:translateX(-50%);
 transition:bottom .8s ease;
 }
 
-/* Slide out */
+/* Slide */
 .show{
 bottom:20px !important;
 }
@@ -141,7 +142,7 @@ padding:20px;
 text-align:center;
 }
 
-/* Fly animation (2s natural wind + zoom) */
+/* Fly 2s natural */
 .fly{
 animation:flyAnim 2s ease forwards;
 }
@@ -164,7 +165,7 @@ transition:.5s;
 }
 .blur.active{opacity:1;}
 
-/* Shake for wrong password */
+/* Shake wrong password */
 .shake{
 animation:shake .4s;
 }
@@ -191,14 +192,10 @@ cursor:pointer;
 
 <body>
 
-<audio id="bgm" autoplay loop>
-  <source src="assets/music.mp3" type="audio/mpeg">
-</audio>
-
 <h1 class="title">Happy Valentine's Day</h1>
 
-<div class="card" onclick="openEnvelope()">
-  <div class="letter-wrap">
+<div class="card" id="card">
+  <div class="letter-wrap" id="letterWrap">
     <div class="letter" id="letterContent">
       <h3>Enter Password 💖</h3>
       <input type="password" id="pass" placeholder="tanggal jadian...">
@@ -215,29 +212,38 @@ cursor:pointer;
 <script>
 const PASSWORD="220724";
 
-/* autoplay fallback */
-document.addEventListener("click",()=>{
-document.getElementById("bgm").play().catch(()=>{});
-},{once:true});
+/* Floating hearts generator */
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=10+Math.random()*10+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),15000);
+},1500);
 
-function openEnvelope(){
-document.querySelector(".card").classList.add("open");
-document.querySelector(".letter-wrap").classList.add("show");
-}
+/* Envelope click */
+document.getElementById("card").addEventListener("click", function(e){
+if(e.target.tagName==="INPUT"||e.target.tagName==="BUTTON") return;
+
+this.classList.add("open");
+document.getElementById("letterWrap").classList.add("show");
+});
 
 function checkPass(e){
 e.stopPropagation();
 if(document.getElementById("pass").value===PASSWORD){
 
 setTimeout(()=>{
-document.querySelector(".letter-wrap").classList.add("fly");
+document.getElementById("letterWrap").classList.add("fly");
 document.getElementById("blur").classList.add("active");
 startQuestion();
 },1000);
 
 }else{
-document.querySelector(".letter").classList.add("shake");
-setTimeout(()=>document.querySelector(".letter").classList.remove("shake"),400);
+let letter=document.querySelector(".letter");
+letter.classList.add("shake");
+setTimeout(()=>letter.classList.remove("shake"),400);
 }
 }
 
@@ -271,6 +277,8 @@ alert("You don't have that option 😌");
 
 </body>
 </html>
+
+
 
 
 
