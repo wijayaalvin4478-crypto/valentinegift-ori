@@ -112,6 +112,11 @@ transform:scale(1.05);
 
 <body>
 
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+<source src="bgmusic.mp3" type="audio/mp3">
+</audio>
+
 <div class="container">
 
 <div class="main-title">Our Story 💞</div>
@@ -193,6 +198,20 @@ Write Something For Us 💌
 </div>
 
 <script>
+
+/* 🎵 Auto play after first interaction */
+const music = document.getElementById("bgMusic");
+
+function startMusic(){
+music.volume = 0.4;
+music.play().catch(()=>{});
+document.removeEventListener("click", startMusic);
+document.removeEventListener("scroll", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+document.addEventListener("scroll", startMusic);
+
 function goToWrite(){
 window.location.href="our-letter.html";
 }
@@ -200,6 +219,7 @@ window.location.href="our-letter.html";
 
 </body>
 </html>
+
 
 
 
