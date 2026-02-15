@@ -17,25 +17,7 @@ background:linear-gradient(180deg,#1c0b13,#2b0f19);
 overflow-x:hidden;
 }
 
-/* Ambient glow */
-body::before{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,rgba(255,80,120,.15),transparent 70%);
-top:-200px;
-right:-200px;
-animation:glowMove 8s ease-in-out infinite alternate;
-z-index:-1;
-}
-
-@keyframes glowMove{
-from{transform:translateY(0);}
-to{transform:translateY(40px);}
-}
-
-/* SECTION */
+/* SECTION (langsung terlihat, animasi masuk pakai class) */
 .section{
 min-height:100vh;
 display:flex;
@@ -43,14 +25,7 @@ align-items:center;
 justify-content:center;
 flex-direction:column;
 padding:80px 20px;
-opacity:0;
-transform:translateY(40px);
 transition:all 1s ease;
-}
-
-.section.show{
-opacity:1;
-transform:translateY(0);
 }
 
 /* TIMELINE */
@@ -104,14 +79,6 @@ height:200px;
 object-fit:cover;
 border-radius:20px;
 box-shadow:0 20px 50px rgba(0,0,0,.6);
-transition:transform .6s ease;
-}
-
-.collage img:nth-child(odd){transform:rotate(-3deg);}
-.collage img:nth-child(even){transform:rotate(3deg);}
-
-.collage img:hover{
-transform:scale(1.05) rotate(0);
 }
 
 /* Divider */
@@ -120,25 +87,6 @@ width:80px;
 height:2px;
 background:rgba(255,255,255,.3);
 margin:40px auto;
-}
-
-.transition-text{
-text-align:center;
-font-style:italic;
-opacity:.7;
-margin:40px 0;
-}
-
-/* Reunion glow */
-.reunion-glow{
-position:relative;
-}
-.reunion-glow::after{
-content:"";
-position:absolute;
-inset:-40px;
-background:radial-gradient(circle,rgba(255,150,200,.15),transparent 70%);
-z-index:-1;
 }
 
 /* VIDEO */
@@ -153,6 +101,7 @@ border-radius:25px;
 box-shadow:0 25px 70px rgba(0,0,0,.8);
 }
 
+/* Ending text */
 .ending{
 font-family:'Playfair Display', serif;
 font-size:2rem;
@@ -162,7 +111,7 @@ transition:opacity 2s ease;
 }
 .ending.show{opacity:1;}
 
-/* 💌 GLASS BUTTON */
+/* Glass Button */
 .love-btn{
 margin-top:40px;
 padding:14px 45px;
@@ -176,8 +125,6 @@ font-size:1rem;
 letter-spacing:1px;
 cursor:pointer;
 transition:all .4s ease;
-position:relative;
-overflow:hidden;
 opacity:0;
 transform:translateY(20px);
 }
@@ -187,36 +134,46 @@ opacity:1;
 transform:translateY(0);
 }
 
-.love-btn::after{
-content:"";
-position:absolute;
-inset:0;
-border-radius:50px;
-box-shadow:0 0 30px rgba(255,150,200,.4);
-opacity:0;
-transition:.4s;
-}
-
 .love-btn:hover{
 background:rgba(255,255,255,.15);
-transform:translateY(-2px) scale(1.05);
-}
-
-.love-btn:hover::after{
-opacity:1;
+transform:scale(1.05);
 }
 </style>
 </head>
 
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="bgmusic.mp3" type="audio/mp3">
-</audio>
+<!-- SECTION 1 -->
+<div class="section">
+<div class="timeline">
+<div class="text-box">
+<h2>LOSAAC 2023 ✨</h2>
+<p>Project pertama kitaaa, seneng bangettt 😭</p>
+</div>
+<div class="collage">
+<img src="losaac1.jpeg">
+<img src="losaac2.jpeg">
+</div>
+</div>
+<div class="divider"></div>
+</div>
 
-<!-- (SEMUA SECTION KAMU TETAP SAMA, AKU POTONG DI SINI BIAR JAWABAN TIDAK TERLALU PANJANG) -->
+<!-- SECTION 2 -->
+<div class="section">
+<div class="timeline">
+<div class="text-box">
+<h2>22/07/24 💖</h2>
+<p>You said yes. And that changed everything.</p>
+</div>
+<div class="collage">
+<img src="jadian1.jpeg">
+<img src="jadian2.jpeg">
+</div>
+</div>
+<div class="divider"></div>
+</div>
 
-<!-- VIDEO -->
+<!-- VIDEO SECTION -->
 <div class="section video-section">
 <h2>This Is For You 💌</h2>
 
@@ -231,65 +188,18 @@ I will always choose you. Every single day. 💍
 <button class="love-btn" id="writeBtn" onclick="goToWrite()">
 Write Something For Us 💌
 </button>
-
 </div>
 
 <script>
-const sections = document.querySelectorAll('.section');
 const video = document.getElementById("finalVideo");
-const music = document.getElementById("bgMusic");
 const ending = document.getElementById("endingText");
 const writeBtn = document.getElementById("writeBtn");
 
-let musicStarted = false;
-
-window.addEventListener('scroll', ()=>{
-sections.forEach(sec=>{
-if(sec.getBoundingClientRect().top < window.innerHeight - 100){
-sec.classList.add('show');
-
-if(!musicStarted){
-startMusic();
-musicStarted = true;
-}
-
-if(sec.classList.contains('video-section')){
-fadeOutMusic();
-}
-}
-});
-});
-
-function startMusic(){
-music.volume = 0;
-music.play().catch(()=>{});
-let vol = 0;
-let fade = setInterval(()=>{
-if(vol < 0.4){
-vol += 0.02;
-music.volume = vol;
-}else{
-clearInterval(fade);
-}
-},200);
-}
-
-function fadeOutMusic(){
-let vol = music.volume;
-let fade = setInterval(()=>{
-if(vol > 0.02){
-vol -= 0.02;
-music.volume = vol;
-}else{
-clearInterval(fade);
-music.pause();
-}
-},200);
-}
-
 video.addEventListener("ended",()=>{
 ending.classList.add("show");
+setTimeout(()=>{
 writeBtn.classList.add("show");
+},1000);
 });
 
 function goToWrite(){
@@ -299,6 +209,7 @@ window.location.href="our-letter.html";
 
 </body>
 </html>
+
 
 
 
