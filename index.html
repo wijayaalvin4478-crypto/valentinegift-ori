@@ -17,16 +17,9 @@ align-items:center;
 background:url('bg.jpeg') center/cover no-repeat;
 overflow:hidden;
 position:relative;
-animation:bgZoom 20s ease-in-out infinite alternate;
 }
 
-/* subtle cinematic zoom */
-@keyframes bgZoom{
-from{background-size:100%;}
-to{background-size:110%;}
-}
-
-/* overlay */
+/* Cinematic overlay */
 body::before{
 content:"";
 position:fixed;
@@ -42,16 +35,10 @@ top:70px;
 width:100%;
 text-align:center;
 font-family:'Cormorant Garamond', serif;
-font-size:3.2rem;
-letter-spacing:5px;
+font-size:3rem;
+letter-spacing:4px;
 color:#f8e9ec;
-opacity:0;
-animation:fadeTitle 2s ease forwards;
-}
-
-@keyframes fadeTitle{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+z-index:2;
 }
 
 /* Hearts */
@@ -65,26 +52,25 @@ z-index:0;
 
 .heart{
 position:absolute;
-width:15px;
-height:15px;
-background:rgba(255,192,203,.3);
+width:16px;
+height:16px;
+background:rgba(255,192,203,.35);
 transform:rotate(45deg);
 animation:floatUp linear infinite;
-filter:blur(.5px);
 }
 
 .heart::before,
 .heart::after{
 content:"";
 position:absolute;
-width:15px;
-height:15px;
-background:rgba(255,192,203,.3);
+width:16px;
+height:16px;
+background:rgba(255,192,203,.35);
 border-radius:50%;
 }
 
-.heart::before{top:-7px;left:0;}
-.heart::after{left:-7px;top:0;}
+.heart::before{top:-8px;left:0;}
+.heart::after{left:-8px;top:0;}
 
 @keyframes floatUp{
 0%{transform:translateY(100vh) rotate(45deg);opacity:0;}
@@ -114,6 +100,7 @@ overflow:hidden;
 z-index:1;
 }
 
+/* Flap */
 .flap{
 position:absolute;
 top:0;
@@ -130,18 +117,23 @@ z-index:3;
 transform:rotateX(180deg);
 }
 
-/* Letter */
+/* Letter system */
 .letter-wrap{
 position:absolute;
-bottom:-180px;
 left:50%;
-transform:translateX(-50%);
-transition:bottom .9s cubic-bezier(.22,1,.36,1);
+bottom:0;
+transform:translate(-50%,100%); /* benar-benar di dalam envelope */
+transition:transform .9s cubic-bezier(.22,1,.36,1);
 z-index:2;
 }
 
-.peek{bottom:-70px !important;}
-.full{bottom:20px !important;}
+.peek{
+transform:translate(-50%,35%); /* keluar sedikit dari mulut envelope */
+}
+
+.full{
+transform:translate(-50%,-15%); /* keluar penuh di atas envelope */
+}
 
 .letter{
 width:300px;
@@ -153,17 +145,27 @@ padding:20px;
 text-align:center;
 }
 
-/* Cinematic fly */
+/* Fly from OUTSIDE envelope */
 .fly{
-animation:flyUltra 2s cubic-bezier(.22,1,.36,1) forwards;
+animation:flyReal 2s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-@keyframes flyUltra{
-0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);}
-25%{transform:translateX(-60%) translateY(-60px) scale(1.05) rotate(-6deg);}
-50%{transform:translateX(-45%) translateY(-120px) scale(1.1) rotate(5deg);}
-75%{transform:translateX(-52%) translateY(-170px) scale(1.18) rotate(-2deg);}
-100%{transform:translateX(-50%) translateY(-220px) scale(1.25) rotate(0);}
+@keyframes flyReal{
+0%{
+transform:translate(-50%,-15%) scale(1) rotate(0deg);
+}
+30%{
+transform:translate(-60%,-120%) scale(1.05) rotate(-6deg);
+}
+60%{
+transform:translate(-45%,-220%) scale(1.1) rotate(5deg);
+}
+80%{
+transform:translate(-50%,-300%) scale(1.18) rotate(-2deg);
+}
+100%{
+transform:translate(-50%,-380%) scale(1.25) rotate(0deg);
+}
 }
 
 /* Blur */
@@ -177,6 +179,7 @@ transition:.6s;
 z-index:2;
 pointer-events:none;
 }
+
 .blur.active{opacity:1;}
 
 .shake{animation:shake .4s;}
@@ -228,16 +231,15 @@ cursor:pointer;
 const PASSWORD="220724";
 let opened=false;
 
-/* hearts generator */
+/* hearts */
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
 h.style.left=Math.random()*100+"vw";
 h.style.animationDuration=8+Math.random()*6+"s";
-h.style.opacity=Math.random()*.6;
 document.getElementById("hearts").appendChild(h);
 setTimeout(()=>h.remove(),15000);
-},1000);
+},1200);
 
 /* open envelope */
 document.getElementById("card").addEventListener("click", function(e){
@@ -259,6 +261,7 @@ e.stopPropagation();
 if(document.getElementById("pass").value===PASSWORD){
 
 let wrap=document.getElementById("letterWrap");
+
 wrap.classList.remove("peek");
 wrap.classList.add("full");
 
@@ -307,6 +310,7 @@ alert("You don't have that option 😌");
 
 </body>
 </html>
+>
 
 
 
