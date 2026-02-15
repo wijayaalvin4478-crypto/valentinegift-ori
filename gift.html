@@ -3,98 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Story 💖</title>
+<title>Our Story ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
-font-family:Montserrat;
+font-family:'Montserrat',sans-serif;
+background:linear-gradient(180deg,#140b13,#2b0f19);
 color:white;
-background:linear-gradient(180deg,#1c0b13,#2b0f19);
 overflow-x:hidden;
 }
 
-/* Ambient glow */
-body::before{
-content:"";
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,rgba(255,80,120,.15),transparent 70%);
-top:-200px;
-right:-200px;
-animation:glowMove 8s ease-in-out infinite alternate;
-z-index:-1;
-}
-
-@keyframes glowMove{
-from{transform:translateY(0);}
-to{transform:translateY(40px);}
-}
-
-/* SECTION */
-.section{
-min-height:100vh;
+/* Title */
+.hero{
+height:60vh;
 display:flex;
+justify-content:center;
 align-items:center;
-justify-content:center;
-flex-direction:column;
-padding:80px 20px;
-opacity:0;
-transform:translateY(40px);
-transition:all 1s ease;
-}
-
-.section.show{
-opacity:1;
-transform:translateY(0);
-}
-
-/* TIMELINE */
-.timeline{
-display:flex;
-flex-wrap:wrap;
-align-items:center;
-justify-content:center;
-gap:60px;
-max-width:1100px;
-margin:auto;
-}
-
-.timeline.no-photo{
-justify-content:center;
-}
-
-.timeline.no-photo .text-box{
-max-width:700px;
 text-align:center;
+font-family:'Playfair Display',serif;
+font-size:3rem;
+letter-spacing:2px;
 }
 
-.text-box{
-flex:1;
-min-width:300px;
+/* Timeline */
+.timeline{
+width:90%;
+max-width:1000px;
+margin:auto;
+padding:40px 0;
 }
 
-.text-box h2{
-font-family:'Playfair Display', serif;
-font-size:2.3rem;
+.event{
+margin-bottom:80px;
+}
+
+.event h2{
+font-family:'Playfair Display',serif;
+margin-bottom:15px;
+color:#ff9ecf;
+}
+
+.event p{
 margin-bottom:20px;
+opacity:.85;
 }
 
-.text-box p{
-line-height:1.8;
-font-size:1.1rem;
-}
-
-/* COLLAGE */
+/* Collage */
 .collage{
-flex:1;
-min-width:300px;
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
 gap:15px;
 }
 
@@ -102,127 +67,100 @@ gap:15px;
 width:100%;
 height:200px;
 object-fit:cover;
-border-radius:20px;
-box-shadow:0 20px 50px rgba(0,0,0,.6);
-transition:transform .6s ease;
+border-radius:15px;
+transition:.4s;
 }
-
-.collage img:nth-child(odd){transform:rotate(-3deg);}
-.collage img:nth-child(even){transform:rotate(3deg);}
 
 .collage img:hover{
-transform:scale(1.05) rotate(0);
+transform:scale(1.05);
 }
 
-/* Divider */
-.divider{
-width:80px;
-height:2px;
-background:rgba(255,255,255,.3);
-margin:40px auto;
-}
-
-.transition-text{
-text-align:center;
-font-style:italic;
-opacity:.7;
-margin:40px 0;
-}
-
-/* Reunion glow */
-.reunion-glow{
-position:relative;
-}
-.reunion-glow::after{
-content:"";
-position:absolute;
-inset:-40px;
-background:radial-gradient(circle,rgba(255,150,200,.15),transparent 70%);
-z-index:-1;
-}
-
-/* VIDEO */
+/* Video */
 .video-section{
-background:black;
+text-align:center;
+padding:60px 20px;
 }
 
 video{
-width:85%;
+width:80%;
 max-width:700px;
-border-radius:25px;
-box-shadow:0 25px 70px rgba(0,0,0,.8);
+border-radius:20px;
+box-shadow:0 0 40px rgba(255,100,160,.3);
 }
 
-.ending{
-font-family:'Playfair Display', serif;
-font-size:2rem;
+/* Glass Button */
+.love-btn{
 margin-top:40px;
-opacity:0;
-transition:opacity 2s ease;
+padding:14px 45px;
+border-radius:50px;
+border:1px solid rgba(255,255,255,.35);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+color:white;
+font-size:1rem;
+letter-spacing:1px;
+cursor:pointer;
+transition:all .4s ease;
+position:relative;
+overflow:hidden;
 }
-.ending.show{opacity:1;}
+
+.love-btn::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:50px;
+box-shadow:0 0 30px rgba(255,150,200,.4);
+opacity:0;
+transition:.4s;
+}
+
+.love-btn:hover{
+background:rgba(255,255,255,.15);
+transform:translateY(-2px) scale(1.05);
+}
+
+.love-btn:hover::after{
+opacity:1;
+}
 </style>
 </head>
 
 <body>
 
-<!-- Background Music -->
-<audio id="bgMusic" loop>
-  <source src="bgmusic.mp3" type="audio/mp3">
-</audio>
-
-<!-- ACT 1 -->
-<div class="section">
-<div class="timeline">
-<div class="text-box">
-<h2>LOSAAC 2023 ✨</h2>
-<p>Project pertama kitaaa, seneng bangettt 😭  
-Cinlok nih kak. Thanks to Pater Jupri wkwkwk.</p>
+<div class="hero">
+Our Story 💞
 </div>
+
+<div class="timeline">
+
+<div class="event">
+<h2>LOSAAC 2023!!</h2>
+<p>project pertama kitaaa seennggg!!!! cinlok nih kak , thanks to pater jupri wkwkwkwk</p>
 <div class="collage">
 <img src="losaac1.jpeg">
 <img src="losaac2.jpeg">
 </div>
 </div>
-<div class="divider"></div>
-<div class="transition-text">And somehow… it didn’t stop there.</div>
-</div>
 
-<div class="section">
-<div class="timeline">
-<div class="text-box">
-<h2>22/07/24 💖</h2>
-<p>Walaupun nembaknya nggak niat banget 😭  
-But you said yes. And that changed everything.</p>
-</div>
+<div class="event">
+<h2>22/07/24</h2>
+<p>heyy hari kita jadian , jujur agak sedikit ekspek u terima hehe walaupun nembaknya ga niatt</p>
 <div class="collage">
 <img src="jadian1.jpeg">
 <img src="jadian2.jpeg">
 </div>
 </div>
-<div class="divider"></div>
-<div class="transition-text">We were no longer a maybe.</div>
+
+<div class="event">
+<h2>Lepas Jabatan DKKL</h2>
+<p>Moment2 yang paling di tunggu cs finally bs go public yes yes yes</p>
 </div>
 
-<div class="section">
-<div class="timeline no-photo">
-<div class="text-box">
-<h2>Lepas Jabatan DKKL 🌟</h2>
-<p>Finally bisa go public.  
-No more sembunyi-sembunyi. Yes yes yes.</p>
-</div>
-</div>
-<div class="divider"></div>
-<div class="transition-text">Everything felt lighter after that.</div>
-</div>
-
-<div class="section">
-<div class="timeline">
-<div class="text-box">
-<h2>Date After DKKL 💞</h2>
-<p>Masa-masa bucin setelah DKKL nih kiw2.  
-Just us, enjoying the moment.</p>
-</div>
+<div class="event">
+<h2>Date After DKKL</h2>
+<p>masa2 bucin setelah dkkl nih kiw2</p>
 <div class="collage">
 <img src="date1.jpeg">
 <img src="date2.jpeg">
@@ -230,47 +168,24 @@ Just us, enjoying the moment.</p>
 <img src="date4.jpeg">
 </div>
 </div>
-<div class="divider"></div>
-<div class="transition-text">But then… life tested us.</div>
+
+<div class="event">
+<h2>Moment Perpisahan</h2>
+<p>LDR batch 1 nih kak , so sad harus ldr but semangaaaaatt we can do this shittt</p>
 </div>
 
-<!-- ACT 2 -->
-<div class="section">
-<div class="timeline no-photo">
-<div class="text-box">
-<h2>Moment Perpisahan 😔</h2>
-<p>LDR Batch 1 nih kak…  
-So sad harus LDR. But semangattt.</p>
-</div>
-</div>
-<div class="divider"></div>
-<div class="transition-text">Distance was never easy.</div>
-</div>
-
-<div class="section">
-<div class="timeline">
-<div class="text-box">
-<h2>LDR Phase 🥀</h2>
-<p>Banyak masalah sihh.  
-But we didn’t break. We matured.</p>
-</div>
+<div class="event">
+<h2>LDR Phase 😔</h2>
+<p>banyak masalah sihh, tapi our relationship getting mature and banyak deh perkembangannya</p>
 <div class="collage">
 <img src="ldr1.jpeg">
 <img src="ldr2.jpeg">
 </div>
 </div>
-<div class="divider"></div>
-<div class="transition-text">And finally…</div>
-</div>
 
-<!-- ACT 3 -->
-<div class="section reunion-glow">
-<div class="timeline">
-<div class="text-box">
-<h2>LDR DONE — REUNITED GANGGG 🎉</h2>
-<p>Every second of waiting was worth you.  
-Very very asik and honestly… worth it.</p>
-</div>
+<div class="event">
+<h2>LDR BATCH 1 DONEE!! REUNITEDD GANGGG</h2>
+<p>masa2 setelah ldrrrr yang very2 asik dan worth itt</p>
 <div class="collage">
 <img src="reunion1.jpeg">
 <img src="reunion2.jpeg">
@@ -278,93 +193,34 @@ Very very asik and honestly… worth it.</p>
 <img src="reunion4.jpeg">
 </div>
 </div>
-<div class="divider"></div>
-<div class="transition-text">And after all of this… I just want to say one thing.</div>
+
 </div>
 
-<!-- VIDEO -->
-<div class="section video-section">
-<h2>This Is For You 💌</h2>
-<video id="finalVideo">
+<div class="video-section">
+<h2 style="font-family:'Playfair Display',serif;margin-bottom:20px;">A Little Message For You 💌</h2>
+
+<video controls>
 <source src="video.mp4" type="video/mp4">
 </video>
-<div class="ending" id="endingText">
-I will always choose you. Every single day. 💍
-</div>
+
+<br>
+
+<button class="love-btn" onclick="goToWrite()">
+Write Something For Us 💌
+</button>
+
 </div>
 
 <script>
-const sections = document.querySelectorAll('.section');
-const video = document.getElementById("finalVideo");
-const music = document.getElementById("bgMusic");
-const ending = document.getElementById("endingText");
-
-let musicStarted = false;
-
-window.addEventListener('scroll', ()=>{
-sections.forEach(sec=>{
-if(sec.getBoundingClientRect().top < window.innerHeight - 100){
-sec.classList.add('show');
-
-if(!musicStarted){
-startMusic();
-musicStarted = true;
+function goToWrite(){
+window.location.href="our-letter.html";
 }
-
-if(sec.classList.contains('video-section')){
-fadeOutMusic();
-setTimeout(()=>{ video.play(); },1000);
-}
-}
-});
-});
-
-function startMusic(){
-music.volume = 0;
-music.play().catch(()=>{});
-let vol = 0;
-let fade = setInterval(()=>{
-if(vol < 0.4){
-vol += 0.02;
-music.volume = vol;
-}else{
-clearInterval(fade);
-}
-},200);
-}
-
-function fadeOutMusic(){
-let vol = music.volume;
-let fade = setInterval(()=>{
-if(vol > 0.02){
-vol -= 0.02;
-music.volume = vol;
-}else{
-clearInterval(fade);
-music.pause();
-}
-},200);
-}
-
-video.addEventListener("ended",()=>{
-ending.classList.add("show");
-});
 </script>
 
 </body>
 </html>
-<button onclick="goToWrite()" style="
-margin-top:30px;
-padding:12px 30px;
-border:none;
-border-radius:30px;
-background:#ff4d6d;
-color:white;
-font-size:1rem;
-cursor:pointer;
-">
-Write Something For Us 💌
-</button>
+
+
 
 
 
