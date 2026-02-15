@@ -3,28 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Story 💖</title>
+<title>Our Story </title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
 font-family:Montserrat;
-background:#1c0b13;
 color:white;
+background:linear-gradient(180deg,#1c0b13,#2b0f19);
 overflow-x:hidden;
 }
 
-/* Section */
+/* Ambient glow */
+body::before{
+content:"";
+position:fixed;
+width:600px;
+height:600px;
+background:radial-gradient(circle,rgba(255,80,120,.15),transparent 70%);
+top:-200px;
+right:-200px;
+animation:glowMove 8s ease-in-out infinite alternate;
+z-index:-1;
+}
+
+@keyframes glowMove{
+from{transform:translateY(0px);}
+to{transform:translateY(40px);}
+}
+
+/* SECTION */
 .section{
 min-height:100vh;
 display:flex;
-flex-direction:column;
-justify-content:center;
 align-items:center;
-text-align:center;
-padding:40px;
+justify-content:center;
+padding:80px 20px;
 opacity:0;
 transform:translateY(40px);
 transition:all 1s ease;
@@ -35,99 +52,246 @@ opacity:1;
 transform:translateY(0);
 }
 
-h1,h2{
+/* TIMELINE */
+.timeline{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
+gap:60px;
+max-width:1100px;
+margin:auto;
+}
+
+.text-box{
+flex:1;
+min-width:300px;
+}
+
+.text-box h2{
 font-family:'Playfair Display', serif;
+font-size:2.3rem;
 margin-bottom:20px;
 }
 
-p{
-max-width:600px;
+.text-box p{
 line-height:1.8;
 font-size:1.1rem;
 }
 
-/* Video Section */
+/* COLLAGE */
+.collage{
+flex:1;
+min-width:300px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.collage img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,.6);
+transition:transform .6s ease;
+}
+
+.collage img:nth-child(odd){transform:rotate(-3deg);}
+.collage img:nth-child(even){transform:rotate(3deg);}
+
+.collage img:hover{
+transform:scale(1.05) rotate(0deg);
+}
+
+/* VIDEO SECTION */
 .video-section{
+flex-direction:column;
+text-align:center;
 background:black;
 }
 
 video{
-width:80%;
-max-width:600px;
-border-radius:20px;
-box-shadow:0 20px 60px rgba(0,0,0,.6);
+width:85%;
+max-width:700px;
+border-radius:25px;
+box-shadow:0 25px 70px rgba(0,0,0,.8);
 }
+
+.ending{
+font-family:'Playfair Display', serif;
+font-size:2rem;
+margin-top:40px;
+opacity:0;
+transition:opacity 2s ease;
+}
+.ending.show{opacity:1;}
 </style>
 </head>
 
 <body>
 
-<!-- Opening -->
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+  <source src="bgmusic.mp3" type="audio/mp3">
+</audio>
+
+<!-- LOSAAC -->
 <div class="section">
-<h1>Our Story 💌</h1>
-<p>Every love story is beautiful… but ours is my favorite.</p>
+<div class="timeline">
+<div class="text-box">
+<h2>LOSAAC 2023 ✨</h2>
+<p>
+Project pertama kitaaa, seneng bangettt 😭  
+Cinlok nih kak. Thanks to Pater Jupri wkwkwk.
+</p>
+</div>
+<div class="collage">
+<img src="losaac1.jpg">
+<img src="losaac2.jpg">
+<img src="losaac3.jpg">
+<img src="losaac4.jpg">
+</div>
+</div>
 </div>
 
-<!-- Timeline 1 -->
+<!-- JADIAN -->
 <div class="section">
-<h2>July 22, 2024</h2>
-<p>The day everything changed.  
-The day I met someone who would slowly become my favorite person.</p>
+<div class="timeline">
+<div class="text-box">
+<h2>22/07/24 💖</h2>
+<p>
+Walaupun nembaknya nggak niat banget 😭  
+But you said yes.  
+And that changed everything.
+</p>
+</div>
+<div class="collage">
+<img src="jadian1.jpg">
+<img src="jadian2.jpg">
+<img src="jadian3.jpg">
+<img src="jadian4.jpg">
+</div>
+</div>
 </div>
 
-<!-- Timeline 2 -->
+<!-- LDR -->
 <div class="section">
-<h2>Distance Began</h2>
-<p>Even when miles stood between us,  
-my heart never felt far from you.</p>
+<div class="timeline">
+<div class="text-box">
+<h2>LDR Phase 😔</h2>
+<p>
+Banyak masalah sihh.  
+But we grew.  
+Distance made us stronger.
+</p>
+</div>
+<div class="collage">
+<img src="ldr1.jpg">
+<img src="ldr2.jpg">
+<img src="ldr3.jpg">
+<img src="ldr4.jpg">
+</div>
+</div>
 </div>
 
-<!-- Timeline 3 -->
+<!-- REUNION -->
 <div class="section">
-<h2>Through Everything</h2>
-<p>The laughs, the late night calls,  
-the small fights, the understanding —  
-we grew together.</p>
+<div class="timeline">
+<div class="text-box">
+<h2>REUNITED GANGGG 🎉</h2>
+<p>
+Very very asik and worth it.  
+And now... this is for you.
+</p>
+</div>
+<div class="collage">
+<img src="reunion1.jpg">
+<img src="reunion2.jpg">
+<img src="reunion3.jpg">
+<img src="reunion4.jpg">
+</div>
+</div>
 </div>
 
-<!-- Before Video -->
-<div class="section">
-<h2>And after all this distance...</h2>
-<p>I just want to tell you something directly from my heart.</p>
-</div>
-
-<!-- Video Section -->
+<!-- VIDEO -->
 <div class="section video-section">
-<h2>This is for you 💖</h2>
-<video controls>
+<h2>This Is For You 💌</h2>
+<video id="finalVideo">
 <source src="video.mp4" type="video/mp4">
-Your browser does not support video.
 </video>
+<div class="ending" id="endingText">
+I will always choose you. Every single day. 💍
 </div>
-
-<!-- Ending -->
-<div class="section">
-<h2>Forever?</h2>
-<p>I will always choose you.  
-Every single day. 💍</p>
 </div>
 
 <script>
-/* Scroll reveal */
 const sections = document.querySelectorAll('.section');
+const video = document.getElementById("finalVideo");
+const music = document.getElementById("bgMusic");
+const ending = document.getElementById("endingText");
 
+let musicStarted = false;
+
+/* Scroll reveal + music control */
 window.addEventListener('scroll', ()=>{
 sections.forEach(sec=>{
-const top = sec.getBoundingClientRect().top;
-if(top < window.innerHeight - 100){
+if(sec.getBoundingClientRect().top < window.innerHeight - 100){
 sec.classList.add('show');
+
+if(!musicStarted){
+startMusic();
+musicStarted = true;
+}
+
+if(sec.classList.contains('video-section')){
+fadeOutMusic();
+setTimeout(()=>{
+video.play();
+},1000);
+}
 }
 });
+});
+
+/* Fade In Music */
+function startMusic(){
+music.volume = 0;
+music.play();
+let vol = 0;
+let fade = setInterval(()=>{
+if(vol < 0.4){
+vol += 0.02;
+music.volume = vol;
+}else{
+clearInterval(fade);
+}
+},200);
+}
+
+/* Fade Out Music */
+function fadeOutMusic(){
+let vol = music.volume;
+let fade = setInterval(()=>{
+if(vol > 0.02){
+vol -= 0.02;
+music.volume = vol;
+}else{
+clearInterval(fade);
+music.pause();
+}
+},200);
+}
+
+video.addEventListener("ended",()=>{
+ending.classList.add("show");
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 
