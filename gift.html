@@ -31,7 +31,7 @@ z-index:-1;
 }
 
 @keyframes glowMove{
-from{transform:translateY(0px);}
+from{transform:translateY(0);}
 to{transform:translateY(40px);}
 }
 
@@ -62,6 +62,15 @@ justify-content:center;
 gap:60px;
 max-width:1100px;
 margin:auto;
+}
+
+.timeline.no-photo{
+justify-content:center;
+}
+
+.timeline.no-photo .text-box{
+max-width:700px;
+text-align:center;
 }
 
 .text-box{
@@ -102,7 +111,7 @@ transition:transform .6s ease;
 .collage img:nth-child(even){transform:rotate(3deg);}
 
 .collage img:hover{
-transform:scale(1.05) rotate(0deg);
+transform:scale(1.05) rotate(0);
 }
 
 /* Divider */
@@ -162,15 +171,13 @@ transition:opacity 2s ease;
   <source src="bgmusic.mp3" type="audio/mp3">
 </audio>
 
-<!-- LOSAAC -->
+<!-- ACT 1 -->
 <div class="section">
 <div class="timeline">
 <div class="text-box">
 <h2>LOSAAC 2023 ✨</h2>
-<p>
-Project pertama kitaaa, seneng bangettt 😭  
-Cinlok nih kak. Thanks to Pater Jupri wkwkwk.
-</p>
+<p>Project pertama kitaaa, seneng bangettt 😭  
+Cinlok nih kak. Thanks to Pater Jupri wkwkwk.</p>
 </div>
 <div class="collage">
 <img src="losaac1.jpeg">
@@ -181,16 +188,12 @@ Cinlok nih kak. Thanks to Pater Jupri wkwkwk.
 <div class="transition-text">And somehow… it didn’t stop there.</div>
 </div>
 
-<!-- JADIAN -->
 <div class="section">
 <div class="timeline">
 <div class="text-box">
 <h2>22/07/24 💖</h2>
-<p>
-Walaupun nembaknya nggak niat banget 😭  
-But you said yes.  
-And that changed everything.
-</p>
+<p>Walaupun nembaknya nggak niat banget 😭  
+But you said yes. And that changed everything.</p>
 </div>
 <div class="collage">
 <img src="jadian1.jpeg">
@@ -201,15 +204,24 @@ And that changed everything.
 <div class="transition-text">We were no longer a maybe.</div>
 </div>
 
-<!-- DATE AFTER DKKL -->
+<div class="section">
+<div class="timeline no-photo">
+<div class="text-box">
+<h2>Lepas Jabatan DKKL 🌟</h2>
+<p>Finally bisa go public.  
+No more sembunyi-sembunyi. Yes yes yes.</p>
+</div>
+</div>
+<div class="divider"></div>
+<div class="transition-text">Everything felt lighter after that.</div>
+</div>
+
 <div class="section">
 <div class="timeline">
 <div class="text-box">
 <h2>Date After DKKL 💞</h2>
-<p>
-Masa-masa bucin setelah DKKL nih kiw2.  
-Finally bisa enjoy everything without hiding.
-</p>
+<p>Masa-masa bucin setelah DKKL nih kiw2.  
+Just us, enjoying the moment.</p>
 </div>
 <div class="collage">
 <img src="date1.jpeg">
@@ -219,20 +231,28 @@ Finally bisa enjoy everything without hiding.
 </div>
 </div>
 <div class="divider"></div>
-<div class="transition-text">Then came the hard part…</div>
+<div class="transition-text">But then… life tested us.</div>
 </div>
 
-<!-- LDR -->
+<!-- ACT 2 -->
+<div class="section">
+<div class="timeline no-photo">
+<div class="text-box">
+<h2>Moment Perpisahan 😔</h2>
+<p>LDR Batch 1 nih kak…  
+So sad harus LDR. But semangattt.</p>
+</div>
+</div>
+<div class="divider"></div>
+<div class="transition-text">Distance was never easy.</div>
+</div>
+
 <div class="section">
 <div class="timeline">
 <div class="text-box">
-<h2>LDR Phase 😔</h2>
-<p>
-Banyak masalah sihh.  
-But we didn’t break.  
-We grew. We matured.  
-Distance made us stronger.
-</p>
+<h2>LDR Phase 🥀</h2>
+<p>Banyak masalah sihh.  
+But we didn’t break. We matured.</p>
 </div>
 <div class="collage">
 <img src="ldr1.jpeg">
@@ -243,15 +263,13 @@ Distance made us stronger.
 <div class="transition-text">And finally…</div>
 </div>
 
-<!-- REUNION -->
+<!-- ACT 3 -->
 <div class="section reunion-glow">
 <div class="timeline">
 <div class="text-box">
-<h2>REUNITED GANGGG 🎉</h2>
-<p>
-LDR batch 1 DONEE!!  
-Very very asik and honestly… worth it.
-</p>
+<h2>LDR DONE — REUNITED GANGGG 🎉</h2>
+<p>Every second of waiting was worth you.  
+Very very asik and honestly… worth it.</p>
 </div>
 <div class="collage">
 <img src="reunion1.jpeg">
@@ -295,9 +313,7 @@ musicStarted = true;
 
 if(sec.classList.contains('video-section')){
 fadeOutMusic();
-setTimeout(()=>{
-video.play();
-},1000);
+setTimeout(()=>{ video.play(); },1000);
 }
 }
 });
@@ -305,7 +321,7 @@ video.play();
 
 function startMusic(){
 music.volume = 0;
-music.play();
+music.play().catch(()=>{});
 let vol = 0;
 let fade = setInterval(()=>{
 if(vol < 0.4){
