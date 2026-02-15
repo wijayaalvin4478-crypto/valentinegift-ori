@@ -46,10 +46,9 @@ color:#f8e9ec;
 width:360px;
 height:260px;
 position:relative;
-cursor:pointer;
 }
 
-/* Envelope */
+/* Envelope body */
 .envelope{
 position:absolute;
 bottom:0;
@@ -58,9 +57,11 @@ height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
 box-shadow:0 15px 40px rgba(0,0,0,.4);
-z-index:2;
+z-index:1;
+overflow:hidden; /* penting supaya surat tersembunyi */
 }
 
+/* Flap */
 .flap{
 position:absolute;
 top:0;
@@ -80,10 +81,10 @@ transform:rotateX(180deg);
 /* Letter wrapper */
 .letter-wrap{
 position:absolute;
-bottom:-180px; /* benar-benar tersembunyi */
+bottom:-150px; /* benar-benar di dalam */
 left:50%;
 transform:translateX(-50%);
-z-index:1;
+z-index:4; /* di atas envelope */
 transition:bottom .8s ease;
 }
 
@@ -114,10 +115,10 @@ animation:flyAnim 2s ease forwards;
 }
 
 @keyframes flyAnim{
-0%{transform:translateX(-50%) translateY(0) scale(1) rotate(0);}
-40%{transform:translateX(-45%) translateY(-80px) scale(1.05) rotate(-4deg);}
-70%{transform:translateX(-50%) translateY(-140px) scale(1.1) rotate(3deg);}
-100%{transform:translateX(-50%) translateY(-180px) scale(1.2) rotate(0);}
+0%{transform:translateX(-50%) translateY(0) scale(1);}
+40%{transform:translateX(-45%) translateY(-80px) scale(1.05);}
+70%{transform:translateX(-50%) translateY(-140px) scale(1.1);}
+100%{transform:translateX(-50%) translateY(-180px) scale(1.2);}
 }
 
 /* Blur */
@@ -128,11 +129,14 @@ background:rgba(0,0,0,.5);
 backdrop-filter:blur(8px);
 opacity:0;
 transition:.5s;
-z-index:4;
+z-index:2;
+pointer-events:none;
 }
-.blur.active{opacity:1;}
+.blur.active{
+opacity:1;
+}
 
-/* Shake */
+/* Shake wrong password */
 .shake{
 animation:shake .4s;
 }
@@ -162,6 +166,10 @@ cursor:pointer;
 <h1 class="title">Happy Valentine's Day</h1>
 
 <div class="card" id="card">
+
+  <div class="envelope"></div>
+  <div class="flap"></div>
+
   <div class="letter-wrap" id="letterWrap">
     <div class="letter" id="letterContent">
       <h3>Enter Password 💖</h3>
@@ -170,28 +178,32 @@ cursor:pointer;
     </div>
   </div>
 
-  <div class="envelope"></div>
-  <div class="flap"></div>
 </div>
 
 <div class="blur" id="blur"></div>
 
 <script>
 const PASSWORD="220724";
-
 let opened=false;
 
+/* Klik envelope */
 document.getElementById("card").addEventListener("click", function(e){
 
-if(e.target.tagName==="INPUT"||e.target.tagName==="BUTTON") return;
+/* kalau klik di dalam surat, jangan buka lagi */
+if(e.target.closest(".letter")) return;
 
 if(!opened){
 this.classList.add("open");
+
+setTimeout(()=>{
 document.getElementById("letterWrap").classList.add("peek");
+},600);
+
 opened=true;
 }
 });
 
+/* Password */
 function checkPass(e){
 e.stopPropagation();
 
@@ -215,6 +227,7 @@ setTimeout(()=>letter.classList.remove("shake"),400);
 }
 }
 
+/* Typewriter */
 function startQuestion(){
 const text="Will you be my Valentine?";
 let i=0;
@@ -246,6 +259,7 @@ alert("You don’t have that option 😌");
 
 </body>
 </html>
+
 
 
 
