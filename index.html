@@ -74,8 +74,8 @@ border-radius:50%;
 100%{transform:translateY(-10vh) rotate(45deg);opacity:0;}
 }
 
-/* Envelope */
-.card{
+/* Wrapper */
+.wrapper{
 position:relative;
 width:360px;
 height:260px;
@@ -83,6 +83,7 @@ z-index:3;
 cursor:pointer;
 }
 
+/* Envelope */
 .envelope{
 position:absolute;
 bottom:0;
@@ -91,6 +92,7 @@ height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
 overflow:hidden;
+transition:.5s;
 }
 
 .flap{
@@ -102,6 +104,7 @@ background:#ff4d6d;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:.8s ease;
+z-index:5;
 }
 
 .open .flap{
@@ -117,10 +120,10 @@ background:#fff;
 border-radius:12px;
 box-shadow:0 15px 40px rgba(0,0,0,.4);
 left:50%;
-top:120px; /* posisi tepat di mulut envelope */
+top:120px; /* tepat di mulut amplop */
 transform:translate(-50%,120%);
-transition:transform .9s cubic-bezier(.22,1,.36,1);
-z-index:4;
+transition:transform .8s cubic-bezier(.22,1,.36,1);
+z-index:6;
 padding:20px;
 text-align:center;
 }
@@ -135,12 +138,17 @@ transform:translate(-50%,20%);
 transform:translate(-50%,-60%);
 }
 
-/* terbang ke kamera */
-.fly{
-animation:flyToCamera 2s ease forwards;
+/* amplop hilang */
+.hide-envelope{
+opacity:0;
 }
 
-@keyframes flyToCamera{
+/* terbang lurus ke kamera */
+.fly{
+animation:flyUp 2s ease forwards;
+}
+
+@keyframes flyUp{
 0%{
 transform:translate(-50%,-60%) scale(1);
 }
@@ -153,11 +161,11 @@ transform:translate(-50%,-200%) scale(1.8);
 .blur{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.7);
+background:rgba(0,0,0,.75);
 backdrop-filter:blur(10px);
 opacity:0;
 transition:.6s;
-z-index:2;
+z-index:4;
 }
 .blur.active{opacity:1;}
 
@@ -176,11 +184,9 @@ cursor:pointer;
 <div id="hearts"></div>
 <h1 class="title">Happy Valentine's Day</h1>
 
-<div class="card" id="card">
-
-<div class="envelope"></div>
+<div class="wrapper" id="wrapper">
+<div class="envelope" id="envelope"></div>
 <div class="flap"></div>
-
 </div>
 
 <div class="letter" id="letter">
@@ -206,9 +212,9 @@ setTimeout(()=>h.remove(),10000);
 },1000);
 
 /* open envelope */
-document.getElementById("card").addEventListener("click",()=>{
+document.getElementById("wrapper").addEventListener("click",()=>{
 if(opened) return;
-document.getElementById("card").classList.add("open");
+document.getElementById("wrapper").classList.add("open");
 setTimeout(()=>{
 document.getElementById("letter").classList.add("peek");
 },600);
@@ -226,15 +232,14 @@ let letter=document.getElementById("letter");
 letter.classList.remove("peek");
 letter.classList.add("full");
 
-/* sembunyikan envelope */
-document.getElementById("card").style.opacity="0";
+/* amplop hilang */
+document.getElementById("wrapper").classList.add("hide-envelope");
 
 setTimeout(()=>{
 letter.classList.add("fly");
 document.getElementById("blur").classList.add("active");
 startType();
-},800);
-
+},700);
 }
 }
 
@@ -257,6 +262,8 @@ type();
 
 </body>
 </html>
+
+
 
 
 
