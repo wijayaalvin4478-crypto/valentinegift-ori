@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Story </title>
+<title>Our Story 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
@@ -41,6 +41,7 @@ min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
+flex-direction:column;
 padding:80px 20px;
 opacity:0;
 transform:translateY(40px);
@@ -104,10 +105,35 @@ transition:transform .6s ease;
 transform:scale(1.05) rotate(0deg);
 }
 
-/* VIDEO SECTION */
-.video-section{
-flex-direction:column;
+/* Divider */
+.divider{
+width:80px;
+height:2px;
+background:rgba(255,255,255,.3);
+margin:40px auto;
+}
+
+.transition-text{
 text-align:center;
+font-style:italic;
+opacity:.7;
+margin:40px 0;
+}
+
+/* Reunion glow */
+.reunion-glow{
+position:relative;
+}
+.reunion-glow::after{
+content:"";
+position:absolute;
+inset:-40px;
+background:radial-gradient(circle,rgba(255,150,200,.15),transparent 70%);
+z-index:-1;
+}
+
+/* VIDEO */
+.video-section{
 background:black;
 }
 
@@ -147,12 +173,12 @@ Cinlok nih kak. Thanks to Pater Jupri wkwkwk.
 </p>
 </div>
 <div class="collage">
-<img src="losaac1.jpg">
-<img src="losaac2.jpg">
-<img src="losaac3.jpg">
-<img src="losaac4.jpg">
+<img src="losaac1.jpeg">
+<img src="losaac2.jpeg">
 </div>
 </div>
+<div class="divider"></div>
+<div class="transition-text">And somehow… it didn’t stop there.</div>
 </div>
 
 <!-- JADIAN -->
@@ -167,12 +193,33 @@ And that changed everything.
 </p>
 </div>
 <div class="collage">
-<img src="jadian1.jpg">
-<img src="jadian2.jpg">
-<img src="jadian3.jpg">
-<img src="jadian4.jpg">
+<img src="jadian1.jpeg">
+<img src="jadian2.jpeg">
 </div>
 </div>
+<div class="divider"></div>
+<div class="transition-text">We were no longer a maybe.</div>
+</div>
+
+<!-- DATE AFTER DKKL -->
+<div class="section">
+<div class="timeline">
+<div class="text-box">
+<h2>Date After DKKL 💞</h2>
+<p>
+Masa-masa bucin setelah DKKL nih kiw2.  
+Finally bisa enjoy everything without hiding.
+</p>
+</div>
+<div class="collage">
+<img src="date1.jpeg">
+<img src="date2.jpeg">
+<img src="date3.jpeg">
+<img src="date4.jpeg">
+</div>
+</div>
+<div class="divider"></div>
+<div class="transition-text">Then came the hard part…</div>
 </div>
 
 <!-- LDR -->
@@ -182,36 +229,39 @@ And that changed everything.
 <h2>LDR Phase 😔</h2>
 <p>
 Banyak masalah sihh.  
-But we grew.  
+But we didn’t break.  
+We grew. We matured.  
 Distance made us stronger.
 </p>
 </div>
 <div class="collage">
-<img src="ldr1.jpg">
-<img src="ldr2.jpg">
-<img src="ldr3.jpg">
-<img src="ldr4.jpg">
+<img src="ldr1.jpeg">
+<img src="ldr2.jpeg">
 </div>
 </div>
+<div class="divider"></div>
+<div class="transition-text">And finally…</div>
 </div>
 
 <!-- REUNION -->
-<div class="section">
+<div class="section reunion-glow">
 <div class="timeline">
 <div class="text-box">
 <h2>REUNITED GANGGG 🎉</h2>
 <p>
-Very very asik and worth it.  
-And now... this is for you.
+LDR batch 1 DONEE!!  
+Very very asik and honestly… worth it.
 </p>
 </div>
 <div class="collage">
-<img src="reunion1.jpg">
-<img src="reunion2.jpg">
-<img src="reunion3.jpg">
-<img src="reunion4.jpg">
+<img src="reunion1.jpeg">
+<img src="reunion2.jpeg">
+<img src="reunion3.jpeg">
+<img src="reunion4.jpeg">
 </div>
 </div>
+<div class="divider"></div>
+<div class="transition-text">And after all of this… I just want to say one thing.</div>
 </div>
 
 <!-- VIDEO -->
@@ -233,7 +283,6 @@ const ending = document.getElementById("endingText");
 
 let musicStarted = false;
 
-/* Scroll reveal + music control */
 window.addEventListener('scroll', ()=>{
 sections.forEach(sec=>{
 if(sec.getBoundingClientRect().top < window.innerHeight - 100){
@@ -254,7 +303,6 @@ video.play();
 });
 });
 
-/* Fade In Music */
 function startMusic(){
 music.volume = 0;
 music.play();
@@ -269,7 +317,6 @@ clearInterval(fade);
 },200);
 }
 
-/* Fade Out Music */
 function fadeOutMusic(){
 let vol = music.volume;
 let fade = setInterval(()=>{
