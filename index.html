@@ -12,21 +12,94 @@ body{
 margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
 background:url('bg.jpeg') center/cover no-repeat;overflow:hidden;position:relative;
 }
-body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:-1}
+
+/* Dark overlay */
+body::before{
+content:"";position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:-1;
+}
+
+/* Cinematic vignette */
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.5));
+pointer-events:none;
+z-index:1;
+}
+
+/* Cinematic opening */
+.cinematic-overlay{
+position:fixed;
+inset:0;
+background:black;
+z-index:20;
+animation:cinematicOpen 2s ease forwards;
+pointer-events:none;
+}
+@keyframes cinematicOpen{
+0%{opacity:1;}
+100%{opacity:0;}
+}
+
+/* Valentine Title */
+.valentine-title{
+position:fixed;
+top:60px;
+text-align:center;
+width:100%;
+font-family:'Playfair Display', serif;
+font-size:3rem;
+color:#ffe5ec;
+letter-spacing:4px;
+opacity:0;
+animation:fadeUp 2s ease forwards 0.8s;
+text-shadow:0 5px 25px rgba(255, 77, 109, .3);
+z-index:10;
+}
+@keyframes fadeUp{
+0%{opacity:0;transform:translateY(30px);}
+100%{opacity:1;transform:translateY(0);}
+}
+
+/* Sparkles */
+.sparkle{
+position:fixed;
+width:8px;
+height:8px;
+background:radial-gradient(circle, white 0%, rgba(255,255,255,0.4) 60%, transparent 80%);
+border-radius:50%;
+opacity:0;
+pointer-events:none;
+animation:sparkleAnim 3s ease forwards;
+}
+@keyframes sparkleAnim{
+0%{opacity:0;transform:scale(.5) translateY(0);}
+30%{opacity:1;}
+100%{opacity:0;transform:scale(1.4) translateY(-20px);}
+}
 
 /* hearts */
-.hearts span{position:fixed;top:-10px;font-size:20px;animation:fall linear infinite;pointer-events:none;}
-@keyframes fall{to{transform:translateY(110vh) rotate(360deg);}}
+.hearts span{
+position:fixed;top:-10px;font-size:20px;
+animation:fall linear infinite;pointer-events:none;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);}
+}
 
 /* envelope */
-.card{width:360px;height:260px;position:relative;cursor:pointer;z-index:5;}
+.card{
+width:360px;height:260px;
+position:relative;cursor:pointer;z-index:5;
+}
 
 .envelope{
 width:100%;height:100%;position:absolute;bottom:0;
 background:#e63946;border-radius:0 0 20px 20px;
-box-shadow:0 15px 40px rgba(0,0,0,.3);overflow:hidden;z-index:2;
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+overflow:hidden;z-index:2;
 }
-
 .envelope::before{
 content:"";position:absolute;inset:0;
 background:repeating-linear-gradient(45deg,rgba(255,255,255,.08),rgba(255,255,255,.08) 6px,transparent 6px,transparent 12px);
@@ -34,29 +107,56 @@ background:repeating-linear-gradient(45deg,rgba(255,255,255,.08),rgba(255,255,25
 
 .flap{
 position:absolute;top:-2px;left:0;width:100%;height:55%;
-background:#ff6b81;clip-path:polygon(0 0,100% 0,50% 100%);
-transform-origin:top;transition:.8s;z-index:3;
+background:#ff6b81;
+clip-path:polygon(0 0,100% 0,50% 100%);
+transform-origin:top;
+transition:.8s;z-index:3;
 }
 
 .letter{
-position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
-width:85%;height:200px;background:#fff;border-radius:10px;
+position:absolute;bottom:20px;left:50%;
+transform:translateX(-50%);
+width:85%;height:200px;background:#fff;
+border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,.2);
-padding:20px;text-align:center;transition:1s;z-index:1;
+padding:20px;text-align:center;
+transition:1s;z-index:1;
 }
 
 .open .flap{transform:rotateX(180deg);}
 .open .letter{bottom:240px;}
 
-.letter input{width:100%;padding:10px;border-radius:8px;border:1px solid #ccc;margin-top:10px;}
-.letter button{margin-top:10px;padding:10px 20px;border:none;border-radius:20px;background:#ff4d6d;color:white;font-weight:bold;cursor:pointer;}
+.letter input{
+width:100%;padding:10px;border-radius:8px;
+border:1px solid #ccc;margin-top:10px;
+}
+.letter button{
+margin-top:10px;padding:10px 20px;
+border:none;border-radius:20px;
+background:#ff4d6d;color:white;
+font-weight:bold;cursor:pointer;
+}
 
-.tap{position:absolute;bottom:-60px;width:100%;text-align:center;color:white;font-weight:bold;animation:pulse 1.5s infinite;}
-@keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+/* tap text */
+.tap{
+position:absolute;bottom:-60px;width:100%;
+text-align:center;color:white;
+font-weight:bold;
+animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
 </style>
 </head>
 
 <body>
+
+<div class="cinematic-overlay"></div>
+
+<h1 class="valentine-title">Happy Valentine's Day ✨</h1>
 
 <div class="hearts"></div>
 
@@ -66,18 +166,23 @@ padding:20px;text-align:center;transition:1s;z-index:1;
     <input type="password" id="pass" placeholder="tanggal jadian kakk...">
     <button onclick="checkPass(event)">Open Gifts 🎁</button>
   </div>
-
   <div class="envelope"><div class="flap"></div></div>
   <div class="tap">Tap the envelope 💌</div>
 </div>
 
-<script>
-const PASSWORD="220724"; // GANTI
+<audio id="bgm" loop>
+  <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
 
+<script>
+const PASSWORD="220724";
+
+/* Envelope */
 function openEnvelope(){
 document.querySelector(".card").classList.add("open");
 }
 
+/* Password */
 function checkPass(e){
 e.stopPropagation();
 if(document.getElementById("pass").value===PASSWORD){
@@ -87,6 +192,7 @@ alert("Wrong password 😝");
 }
 }
 
+/* Hearts */
 const hearts=["❤️","💗","💖","💕"];
 setInterval(()=>{
 let h=document.createElement("span");
@@ -96,6 +202,29 @@ h.style.animationDuration=3+Math.random()*5+"s";
 document.querySelector(".hearts").appendChild(h);
 setTimeout(()=>h.remove(),8000);
 },300);
+
+/* Sparkle */
+function createSparkle(){
+const sparkle=document.createElement("div");
+sparkle.classList.add("sparkle");
+
+const title=document.querySelector(".valentine-title");
+const rect=title.getBoundingClientRect();
+
+sparkle.style.left=(rect.left + Math.random()*rect.width)+"px";
+sparkle.style.top=(rect.top + Math.random()*rect.height)+"px";
+
+document.body.appendChild(sparkle);
+setTimeout(()=>sparkle.remove(),3000);
+}
+setInterval(createSparkle,700);
+
+/* Music start on first click */
+document.addEventListener("click", ()=>{
+const music=document.getElementById("bgm");
+music.volume=0.2;
+music.play();
+},{once:true});
 </script>
 
 </body>
