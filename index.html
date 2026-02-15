@@ -74,16 +74,17 @@ border-radius:50%;
 100%{transform:translateY(-10vh) rotate(45deg);opacity:0;}
 }
 
-/* Wrapper */
+/* Envelope Wrapper */
 .wrapper{
 position:relative;
 width:360px;
 height:260px;
 z-index:3;
 cursor:pointer;
+transition:.6s;
 }
 
-/* Envelope */
+/* Envelope Body */
 .envelope{
 position:absolute;
 bottom:0;
@@ -92,9 +93,9 @@ height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
 overflow:hidden;
-transition:.5s;
 }
 
+/* Flap */
 .flap{
 position:absolute;
 top:0;
@@ -111,7 +112,7 @@ z-index:5;
 transform:rotateX(180deg);
 }
 
-/* Letter */
+/* Letter INSIDE envelope */
 .letter{
 position:absolute;
 width:300px;
@@ -120,40 +121,40 @@ background:#fff;
 border-radius:12px;
 box-shadow:0 15px 40px rgba(0,0,0,.4);
 left:50%;
-top:120px; /* tepat di mulut amplop */
-transform:translate(-50%,120%);
+top:110px; /* posisi mulut envelope */
+transform:translate(-50%,130%);
 transition:transform .8s cubic-bezier(.22,1,.36,1);
-z-index:6;
+z-index:4;
 padding:20px;
 text-align:center;
 }
 
-/* keluar sedikit */
+/* peek keluar sedikit */
 .peek{
-transform:translate(-50%,20%);
+transform:translate(-50%,30%);
 }
 
 /* keluar penuh */
 .full{
-transform:translate(-50%,-60%);
+transform:translate(-50%,-70%);
 }
 
-/* amplop hilang */
+/* envelope fade */
 .hide-envelope{
 opacity:0;
 }
 
-/* terbang lurus ke kamera */
+/* terbang tetap center */
 .fly{
-animation:flyUp 2s ease forwards;
+animation:flyToCamera 2s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-@keyframes flyUp{
+@keyframes flyToCamera{
 0%{
-transform:translate(-50%,-60%) scale(1);
+transform:translate(-50%,-70%) scale(1);
 }
 100%{
-transform:translate(-50%,-200%) scale(1.8);
+transform:translate(-50%,-90%) scale(1.6);
 }
 }
 
@@ -165,7 +166,7 @@ background:rgba(0,0,0,.75);
 backdrop-filter:blur(10px);
 opacity:0;
 transition:.6s;
-z-index:4;
+z-index:2;
 }
 .blur.active{opacity:1;}
 
@@ -185,15 +186,15 @@ cursor:pointer;
 <h1 class="title">Happy Valentine's Day</h1>
 
 <div class="wrapper" id="wrapper">
-<div class="envelope" id="envelope"></div>
-<div class="flap"></div>
-</div>
-
-<div class="letter" id="letter">
-<h3>Enter Password 💖</h3>
-<input type="password" id="pass" placeholder="tanggal jadian...">
-<br>
-<button onclick="checkPass(event)">Open</button>
+  <div class="envelope">
+    <div class="letter" id="letter">
+      <h3>Enter Password 💖</h3>
+      <input type="password" id="pass" placeholder="tanggal jadian...">
+      <br>
+      <button onclick="checkPass(event)">Open</button>
+    </div>
+  </div>
+  <div class="flap"></div>
 </div>
 
 <div class="blur" id="blur"></div>
@@ -202,7 +203,7 @@ cursor:pointer;
 const PASSWORD="220724";
 let opened=false;
 
-/* hearts */
+/* hearts generator */
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
@@ -212,34 +213,42 @@ setTimeout(()=>h.remove(),10000);
 },1000);
 
 /* open envelope */
-document.getElementById("wrapper").addEventListener("click",()=>{
+document.getElementById("wrapper").addEventListener("click",(e)=>{
+if(e.target.closest(".letter")) return;
 if(opened) return;
+
 document.getElementById("wrapper").classList.add("open");
+
 setTimeout(()=>{
 document.getElementById("letter").classList.add("peek");
 },600);
+
 opened=true;
 });
 
 /* password */
 function checkPass(e){
 e.stopPropagation();
+
 if(document.getElementById("pass").value===PASSWORD){
 
 let letter=document.getElementById("letter");
 
-/* keluar penuh */
 letter.classList.remove("peek");
 letter.classList.add("full");
 
-/* amplop hilang */
+/* envelope fade */
 document.getElementById("wrapper").classList.add("hide-envelope");
 
 setTimeout(()=>{
 letter.classList.add("fly");
 document.getElementById("blur").classList.add("active");
-startType();
 },700);
+
+setTimeout(()=>{
+startType();
+},2000);
+
 }
 }
 
@@ -249,6 +258,7 @@ const text="Will you be my Valentine?";
 let i=0;
 let letter=document.getElementById("letter");
 letter.innerHTML="<h2 id='typed'></h2>";
+
 function type(){
 if(i<text.length){
 document.getElementById("typed").innerHTML+=text[i];
@@ -262,6 +272,7 @@ type();
 
 </body>
 </html>
+
 
 
 
