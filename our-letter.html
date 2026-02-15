@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Letter 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Montserrat;
+background:linear-gradient(135deg,#2b0f19,#1c0b13);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+overflow:hidden;
+color:white;
+}
+
+/* glow */
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:radial-gradient(circle,rgba(255,120,160,.2),transparent 70%);
+top:-200px;
+right:-200px;
+animation:glow 8s ease-in-out infinite alternate;
+z-index:0;
+}
+
+@keyframes glow{
+from{transform:translateY(0);}
+to{transform:translateY(40px);}
+}
+
+.card{
+position:relative;
+background:white;
+color:#2b0f19;
+width:90%;
+max-width:600px;
+padding:40px;
+border-radius:25px;
+box-shadow:0 25px 70px rgba(0,0,0,.6);
+text-align:center;
+z-index:2;
+transition:all .6s ease;
+}
+
+h2{
+font-family:'Playfair Display', serif;
+margin-bottom:20px;
+}
+
+textarea{
+width:100%;
+height:160px;
+padding:20px;
+border-radius:15px;
+border:1px solid #ddd;
+resize:none;
+font-family:Montserrat;
+margin-bottom:20px;
+outline:none;
+}
+
+button{
+padding:10px 25px;
+border:none;
+border-radius:30px;
+background:#c9184a;
+color:white;
+cursor:pointer;
+font-size:.95rem;
+margin:5px;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.sealed{
+background:#f9f9f9;
+transform:scale(.97);
+}
+
+.letter-display{
+white-space:pre-line;
+margin-top:20px;
+font-style:italic;
+opacity:.85;
+}
+
+.date{
+margin-top:10px;
+font-size:.85rem;
+opacity:.6;
+}
+
+/* confetti */
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+background:pink;
+top:-10px;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+to{transform:translateY(100vh) rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+<h2>Write Something For Us 💖</h2>
+
+<textarea id="message" placeholder="Write anything you want..."></textarea>
+
+<button onclick="saveMessage()">Seal Our Letter 💌</button>
+<button onclick="downloadLetter()">Download PDF</button>
+<button onclick="goBack()">Back to Our Story</button>
+
+<div class="letter-display" id="display"></div>
+<div class="date" id="date"></div>
+</div>
+
+<script>
+const textarea = document.getElementById("message");
+const display = document.getElementById("display");
+const dateEl = document.getElementById("date");
+const card = document.getElementById("card");
+
+const saved = localStorage.getItem("ourMessage");
+const savedDate = localStorage.getItem("ourDate");
+
+if(saved){
+textarea.style.display="none";
+display.innerText = saved;
+dateEl.innerText = savedDate;
+card.classList.add("sealed");
+}
+
+function saveMessage(){
+const text = textarea.value.trim();
+if(text==="") return;
+
+const now = new Date();
+const dateString = now.toLocaleDateString();
+
+localStorage.setItem("ourMessage", text);
+localStorage.setItem("ourDate", "Written on " + dateString);
+
+textarea.style.display="none";
+display.innerText = text;
+dateEl.innerText = "Written on " + dateString;
+card.classList.add("sealed");
+
+launchConfetti();
+}
+
+function launchConfetti(){
+for(let i=0;i<40;i++){
+let conf=document.createElement("div");
+conf.className="confetti";
+conf.style.left=Math.random()*100+"vw";
+conf.style.background=["#ff4d6d","#ff8fa3","#ffc2d1"][Math.floor(Math.random()*3)];
+document.body.appendChild(conf);
+setTimeout(()=>conf.remove(),3000);
+}
+}
+
+function downloadLetter(){
+const text = localStorage.getItem("ourMessage");
+const date = localStorage.getItem("ourDate");
+if(!text) return;
+
+const blob = new Blob([text + "\n\n" + date], {type:"text/plain"});
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "Our_Letter.txt";
+link.click();
+}
+
+function goBack(){
+window.location.href="gift.html";
+}
+</script>
+
+</body>
+</html>
