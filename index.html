@@ -10,51 +10,44 @@
 *{box-sizing:border-box;font-family:Montserrat}
 body{
 margin:0;height:100vh;display:flex;justify-content:center;align-items:center;
-background:url('bg.jpeg') center/cover no-repeat;overflow:hidden;position:relative;
+background:url('bg.jpeg') center/cover no-repeat;
+overflow:hidden;position:relative;
 }
 
 /* Dark overlay */
 body::before{
-content:"";position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:-1;
+content:"";position:fixed;inset:0;
+background:rgba(0,0,0,.35);z-index:-1;
 }
 
 /* Cinematic vignette */
 body::after{
 content:"";
-position:fixed;
-inset:0;
+position:fixed;inset:0;
 background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.5));
-pointer-events:none;
-z-index:1;
+pointer-events:none;z-index:1;
 }
 
 /* Cinematic opening */
 .cinematic-overlay{
-position:fixed;
-inset:0;
-background:black;
-z-index:20;
-animation:cinematicOpen 2s ease forwards;
-pointer-events:none;
+position:fixed;inset:0;background:black;
+z-index:20;animation:cinematicOpen 2s ease forwards;
 }
 @keyframes cinematicOpen{
 0%{opacity:1;}
 100%{opacity:0;}
 }
 
-/* Valentine Title */
+/* Title */
 .valentine-title{
-position:fixed;
-top:60px;
+position:fixed;top:60px;width:100%;
 text-align:center;
-width:100%;
 font-family:'Playfair Display', serif;
-font-size:3rem;
-color:#ffe5ec;
+font-size:3rem;color:#ffe5ec;
 letter-spacing:4px;
 opacity:0;
 animation:fadeUp 2s ease forwards 0.8s;
-text-shadow:0 5px 25px rgba(255, 77, 109, .3);
+text-shadow:0 5px 25px rgba(255,77,109,.3);
 z-index:10;
 }
 @keyframes fadeUp{
@@ -62,24 +55,7 @@ z-index:10;
 100%{opacity:1;transform:translateY(0);}
 }
 
-/* Sparkles */
-.sparkle{
-position:fixed;
-width:8px;
-height:8px;
-background:radial-gradient(circle, white 0%, rgba(255,255,255,0.4) 60%, transparent 80%);
-border-radius:50%;
-opacity:0;
-pointer-events:none;
-animation:sparkleAnim 3s ease forwards;
-}
-@keyframes sparkleAnim{
-0%{opacity:0;transform:scale(.5) translateY(0);}
-30%{opacity:1;}
-100%{opacity:0;transform:scale(1.4) translateY(-20px);}
-}
-
-/* hearts */
+/* Hearts */
 .hearts span{
 position:fixed;top:-10px;font-size:20px;
 animation:fall linear infinite;pointer-events:none;
@@ -88,23 +64,17 @@ animation:fall linear infinite;pointer-events:none;
 to{transform:translateY(110vh) rotate(360deg);}
 }
 
-/* envelope */
+/* Envelope */
 .card{
 width:360px;height:260px;
 position:relative;cursor:pointer;z-index:5;
 }
-
 .envelope{
 width:100%;height:100%;position:absolute;bottom:0;
 background:#e63946;border-radius:0 0 20px 20px;
 box-shadow:0 15px 40px rgba(0,0,0,.3);
 overflow:hidden;z-index:2;
 }
-.envelope::before{
-content:"";position:absolute;inset:0;
-background:repeating-linear-gradient(45deg,rgba(255,255,255,.08),rgba(255,255,255,.08) 6px,transparent 6px,transparent 12px);
-}
-
 .flap{
 position:absolute;top:-2px;left:0;width:100%;height:55%;
 background:#ff6b81;
@@ -112,7 +82,6 @@ clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:.8s;z-index:3;
 }
-
 .letter{
 position:absolute;bottom:20px;left:50%;
 transform:translateX(-50%);
@@ -123,74 +92,63 @@ padding:20px;text-align:center;
 transition:1s;z-index:1;
 }
 
-.open .flap{transform:rotateX(180deg);}
-.open .letter{bottom:240px;}
+/* Flying animation */
+.fly{
+position:fixed !important;
+left:50%;top:50%;
+width:420px !important;
+height:320px !important;
+padding:30px !important;
+transform:translate(-50%,-50%) rotate(-20deg) scale(.6);
+animation:flyOut 1.8s ease forwards;
+z-index:50;
+}
+@keyframes flyOut{
+0%{transform:translate(-50%,-10%) rotate(-25deg) scale(.5);opacity:0;}
+40%{transform:translate(-50%,-60%) rotate(15deg) scale(.7);opacity:1;}
+70%{transform:translate(-50%,-50%) rotate(-5deg) scale(1.05);}
+100%{transform:translate(-50%,-50%) rotate(0deg) scale(1);}
+}
 
-.letter input{
-width:100%;padding:10px;border-radius:8px;
-border:1px solid #ccc;margin-top:10px;
-}
-.letter button{
-margin-top:10px;padding:10px 20px;
-border:none;border-radius:20px;
-background:#ff4d6d;color:white;
-font-weight:bold;cursor:pointer;
+/* Blur background */
+.blur-bg{
+position:fixed;inset:0;
+backdrop-filter:blur(8px);
+background:rgba(0,0,0,.4);
+z-index:40;
 }
 
-/* tap text */
-.tap{
-position:absolute;bottom:-60px;width:100%;
-text-align:center;color:white;
-font-weight:bold;
-animation:pulse 1.5s infinite;
+/* Buttons */
+.yes-btn,.no-btn{
+padding:8px 16px;border:none;
+border-radius:20px;margin:5px;
+cursor:pointer;font-weight:bold;
+transition:.3s;
 }
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.1);}
-100%{transform:scale(1);}
-}
+.yes-btn{background:#ff4d6d;color:white;}
+.no-btn{background:#ccc;position:relative;}
 </style>
 </head>
 
 <body>
 
 <div class="cinematic-overlay"></div>
-
 <h1 class="valentine-title">Happy Valentine's Day ✨</h1>
-
 <div class="hearts"></div>
 
-<div class="card" onclick="openEnvelope()">
+<div class="card">
   <div class="letter">
-    <h2>Enter Password 💖</h2>
-    <input type="password" id="pass" placeholder="tanggal jadian kakk...">
-    <button onclick="checkPass(event)">Open Gifts 🎁</button>
+    <div id="letterContent">
+      <h2>Enter Password 💖</h2>
+      <input type="password" id="pass" placeholder="tanggal jadian kakk...">
+      <button onclick="checkPass(event)">Open 🎁</button>
+    </div>
   </div>
   <div class="envelope"><div class="flap"></div></div>
-  <div class="tap">Tap the envelope 💌</div>
 </div>
-
-<audio id="bgm" loop>
-  <source src="assets/music.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 const PASSWORD="220724";
-
-/* Envelope */
-function openEnvelope(){
-document.querySelector(".card").classList.add("open");
-}
-
-/* Password */
-function checkPass(e){
-e.stopPropagation();
-if(document.getElementById("pass").value===PASSWORD){
-window.location.href="gift.html";
-}else{
-alert("Wrong password 😝");
-}
-}
 
 /* Hearts */
 const hearts=["❤️","💗","💖","💕"];
@@ -203,29 +161,73 @@ document.querySelector(".hearts").appendChild(h);
 setTimeout(()=>h.remove(),8000);
 },300);
 
-/* Sparkle */
-function createSparkle(){
-const sparkle=document.createElement("div");
-sparkle.classList.add("sparkle");
+/* Password check */
+function checkPass(e){
+e.stopPropagation();
+if(document.getElementById("pass").value===PASSWORD){
 
-const title=document.querySelector(".valentine-title");
-const rect=title.getBoundingClientRect();
+document.querySelector(".flap").style.transform="rotateX(180deg)";
 
-sparkle.style.left=(rect.left + Math.random()*rect.width)+"px";
-sparkle.style.top=(rect.top + Math.random()*rect.height)+"px";
+setTimeout(()=>{
+const letter=document.querySelector(".letter");
+letter.classList.add("fly");
 
-document.body.appendChild(sparkle);
-setTimeout(()=>sparkle.remove(),3000);
+const blur=document.createElement("div");
+blur.classList.add("blur-bg");
+document.body.appendChild(blur);
+
+setTimeout(()=>startLetter(),1500);
+
+},500);
+
+}else{
+alert("Wrong password 😝");
 }
-setInterval(createSparkle,700);
+}
 
-/* Music start on first click */
-document.addEventListener("click", ()=>{
-const music=document.getElementById("bgm");
-music.volume=0.2;
-music.play();
-},{once:true});
+/* Typewriter */
+function startLetter(){
+const text="Hi love...\nEven distance can't stop what I feel for you.\nEvery day with you is my favorite story.";
+let i=0;
+const speed=40;
+document.getElementById("letterContent").innerHTML="<h2 id='typeText'></h2><div id='question' style='display:none;margin-top:15px;'></div>";
+
+function typeWriter(){
+if(i<text.length){
+document.getElementById("typeText").innerHTML+=
+text.charAt(i)==="\n"?"<br>":text.charAt(i);
+i++;
+setTimeout(typeWriter,speed);
+}else{
+showQuestion();
+}
+}
+typeWriter();
+}
+
+/* Show Valentine Question */
+function showQuestion(){
+document.getElementById("question").style.display="block";
+document.getElementById("question").innerHTML=
+"<p style='font-family:Playfair Display,serif;font-size:1.3rem;'>Will you be my Valentine? 💖</p>"+
+"<button class='yes-btn' onclick='sayYes()'>YES 💘</button>"+
+"<button class='no-btn' onmouseover='moveNo()'>NO 🙃</button>";
+}
+
+/* YES */
+function sayYes(){
+alert("She said YES 😭💖");
+}
+
+/* NO moves */
+function moveNo(){
+const btn=document.querySelector(".no-btn");
+btn.style.position="absolute";
+btn.style.left=Math.random()*250+"px";
+btn.style.top=Math.random()*150+"px";
+}
 </script>
 
 </body>
 </html>
+
