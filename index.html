@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>For You 💌</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Montserrat&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Montserrat}
@@ -19,74 +19,70 @@ overflow:hidden;
 position:relative;
 }
 
-/* Overlay */
 body::before{
 content:"";
-position:fixed;
+position:absolute;
 inset:0;
-background:linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.25));
-z-index:-1;
+background:rgba(0,0,0,.6);
 }
 
 /* Title */
 .title{
-position:fixed;
+position:absolute;
 top:70px;
 width:100%;
 text-align:center;
 font-family:'Cormorant Garamond', serif;
 font-size:3rem;
+color:#fff;
 letter-spacing:4px;
-color:#f8e9ec;
+z-index:2;
 }
 
 /* Hearts */
 #hearts{
-position:fixed;
+position:absolute;
 inset:0;
 pointer-events:none;
-overflow:hidden;
-z-index:0;
+z-index:1;
 }
 
 .heart{
 position:absolute;
-width:14px;
-height:14px;
-background:rgba(255,192,203,.35);
+width:12px;
+height:12px;
+background:rgba(255,192,203,.4);
 transform:rotate(45deg);
-animation:floatUp linear infinite;
+animation:float 10s linear infinite;
 }
 
-.heart::before,
-.heart::after{
+.heart::before,.heart::after{
 content:"";
 position:absolute;
-width:14px;
-height:14px;
-background:rgba(255,192,203,.35);
+width:12px;
+height:12px;
+background:rgba(255,192,203,.4);
 border-radius:50%;
 }
 
-.heart::before{top:-7px;left:0;}
-.heart::after{left:-7px;top:0;}
+.heart::before{top:-6px;}
+.heart::after{left:-6px;}
 
-@keyframes floatUp{
+@keyframes float{
 0%{transform:translateY(100vh) rotate(45deg);opacity:0;}
 10%{opacity:1;}
 100%{transform:translateY(-10vh) rotate(45deg);opacity:0;}
 }
 
-/* Card */
+/* Envelope */
 .card{
+position:relative;
 width:360px;
 height:260px;
-position:relative;
 z-index:3;
 cursor:pointer;
 }
 
-/* Envelope */
 .envelope{
 position:absolute;
 bottom:0;
@@ -94,11 +90,9 @@ width:100%;
 height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
-box-shadow:0 20px 60px rgba(0,0,0,.5);
-overflow:hidden; /* surat tersembunyi */
+overflow:hidden;
 }
 
-/* Flap */
 .flap{
 position:absolute;
 top:0;
@@ -107,76 +101,65 @@ height:55%;
 background:#ff4d6d;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
-transition:transform .8s cubic-bezier(.22,1,.36,1);
-z-index:5;
+transition:.8s ease;
 }
 
 .open .flap{
 transform:rotateX(180deg);
 }
 
-/* Letter positioned at mouth of envelope */
-.letter-wrap{
-position:absolute;
-left:50%;
-top:110px; /* posisi mulut envelope */
-transform:translate(-50%,100%);
-transition:transform .9s cubic-bezier(.22,1,.36,1);
-z-index:2;
-}
-
-.peek{
-transform:translate(-50%,20%);
-}
-
-.full{
-transform:translate(-50%,-60%);
-}
-
+/* Letter */
 .letter{
+position:absolute;
 width:300px;
 height:200px;
-background:white;
+background:#fff;
 border-radius:12px;
 box-shadow:0 15px 40px rgba(0,0,0,.4);
+left:50%;
+top:120px; /* posisi tepat di mulut envelope */
+transform:translate(-50%,120%);
+transition:transform .9s cubic-bezier(.22,1,.36,1);
+z-index:4;
 padding:20px;
 text-align:center;
 }
 
-/* Fly outside envelope */
-.fly{
-animation:flyOutside 2s cubic-bezier(.22,1,.36,1) forwards;
+/* keluar sedikit */
+.peek{
+transform:translate(-50%,20%);
 }
 
-@keyframes flyOutside{
-0%{transform:scale(1) rotate(0);}
-30%{transform:translate(-40px,-120px) scale(1.05) rotate(-6deg);}
-60%{transform:translate(30px,-250px) scale(1.1) rotate(5deg);}
-80%{transform:translate(-10px,-350px) scale(1.18) rotate(-2deg);}
-100%{transform:translate(0,-450px) scale(1.25) rotate(0);}
+/* keluar penuh */
+.full{
+transform:translate(-50%,-60%);
+}
+
+/* terbang ke kamera */
+.fly{
+animation:flyToCamera 2s ease forwards;
+}
+
+@keyframes flyToCamera{
+0%{
+transform:translate(-50%,-60%) scale(1);
+}
+100%{
+transform:translate(-50%,-200%) scale(1.8);
+}
 }
 
 /* Blur */
 .blur{
-position:fixed;
+position:absolute;
 inset:0;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.7);
 backdrop-filter:blur(10px);
 opacity:0;
 transition:.6s;
 z-index:2;
-pointer-events:none;
 }
 .blur.active{opacity:1;}
-
-.shake{animation:shake .4s;}
-@keyframes shake{
-0%{transform:translateX(0);}
-25%{transform:translateX(-6px);}
-50%{transform:translateX(6px);}
-75%{transform:translateX(-6px);}
-100%{transform:translateX(0);}
-}
 
 button{
 margin-top:10px;
@@ -195,18 +178,16 @@ cursor:pointer;
 
 <div class="card" id="card">
 
-  <div class="envelope">
-      <div class="letter-wrap" id="letterWrap">
-          <div class="letter" id="letterContent">
-              <h3>Enter Password 💖</h3>
-              <input type="password" id="pass" placeholder="tanggal jadian...">
-              <button onclick="checkPass(event)">Open</button>
-          </div>
-      </div>
-  </div>
+<div class="envelope"></div>
+<div class="flap"></div>
 
-  <div class="flap"></div>
+</div>
 
+<div class="letter" id="letter">
+<h3>Enter Password 💖</h3>
+<input type="password" id="pass" placeholder="tanggal jadian...">
+<br>
+<button onclick="checkPass(event)">Open</button>
 </div>
 
 <div class="blur" id="blur"></div>
@@ -215,65 +196,68 @@ cursor:pointer;
 const PASSWORD="220724";
 let opened=false;
 
-/* Hearts generator */
+/* hearts */
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
 h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=8+Math.random()*6+"s";
 document.getElementById("hearts").appendChild(h);
-setTimeout(()=>h.remove(),15000);
-},1200);
+setTimeout(()=>h.remove(),10000);
+},1000);
 
-/* Open envelope */
-document.getElementById("card").addEventListener("click", function(e){
-if(e.target.closest(".letter")) return;
-
-if(!opened){
-this.classList.add("open");
+/* open envelope */
+document.getElementById("card").addEventListener("click",()=>{
+if(opened) return;
+document.getElementById("card").classList.add("open");
 setTimeout(()=>{
-document.getElementById("letterWrap").classList.add("peek");
+document.getElementById("letter").classList.add("peek");
 },600);
 opened=true;
-}
 });
 
-/* Password logic */
+/* password */
 function checkPass(e){
 e.stopPropagation();
-
 if(document.getElementById("pass").value===PASSWORD){
 
-let wrap=document.getElementById("letterWrap");
+let letter=document.getElementById("letter");
 
-wrap.classList.remove("peek");
-wrap.classList.add("full");
+/* keluar penuh */
+letter.classList.remove("peek");
+letter.classList.add("full");
+
+/* sembunyikan envelope */
+document.getElementById("card").style.opacity="0";
 
 setTimeout(()=>{
-
-/* pindahkan keluar envelope supaya tidak kena overflow */
-document.body.appendChild(wrap);
-
-wrap.style.position="fixed";
-wrap.style.left=window.innerWidth/2+"px";
-wrap.style.top=window.innerHeight/2+"px";
-wrap.style.transform="translate(-50%,-50%)";
-
-wrap.classList.add("fly");
+letter.classList.add("fly");
 document.getElementById("blur").classList.add("active");
+startType();
+},800);
 
-},900);
-
-}else{
-let letter=document.querySelector(".letter");
-letter.classList.add("shake");
-setTimeout(()=>letter.classList.remove("shake"),400);
 }
+}
+
+/* typewriter */
+function startType(){
+const text="Will you be my Valentine?";
+let i=0;
+let letter=document.getElementById("letter");
+letter.innerHTML="<h2 id='typed'></h2>";
+function type(){
+if(i<text.length){
+document.getElementById("typed").innerHTML+=text[i];
+i++;
+setTimeout(type,50);
+}
+}
+type();
 }
 </script>
 
 </body>
 </html>
+
 
 
 
