@@ -19,7 +19,7 @@ overflow:hidden;
 position:relative;
 }
 
-/* Cinematic overlay */
+/* Overlay */
 body::before{
 content:"";
 position:fixed;
@@ -38,7 +38,6 @@ font-family:'Cormorant Garamond', serif;
 font-size:3rem;
 letter-spacing:4px;
 color:#f8e9ec;
-z-index:2;
 }
 
 /* Hearts */
@@ -52,8 +51,8 @@ z-index:0;
 
 .heart{
 position:absolute;
-width:16px;
-height:16px;
+width:14px;
+height:14px;
 background:rgba(255,192,203,.35);
 transform:rotate(45deg);
 animation:floatUp linear infinite;
@@ -63,14 +62,14 @@ animation:floatUp linear infinite;
 .heart::after{
 content:"";
 position:absolute;
-width:16px;
-height:16px;
+width:14px;
+height:14px;
 background:rgba(255,192,203,.35);
 border-radius:50%;
 }
 
-.heart::before{top:-8px;left:0;}
-.heart::after{left:-8px;top:0;}
+.heart::before{top:-7px;left:0;}
+.heart::after{left:-7px;top:0;}
 
 @keyframes floatUp{
 0%{transform:translateY(100vh) rotate(45deg);opacity:0;}
@@ -96,8 +95,7 @@ height:100%;
 background:#c9184a;
 border-radius:0 0 20px 20px;
 box-shadow:0 20px 60px rgba(0,0,0,.5);
-overflow:hidden;
-z-index:1;
+overflow:hidden; /* surat tersembunyi */
 }
 
 /* Flap */
@@ -110,29 +108,29 @@ background:#ff4d6d;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
 transition:transform .8s cubic-bezier(.22,1,.36,1);
-z-index:3;
+z-index:5;
 }
 
 .open .flap{
 transform:rotateX(180deg);
 }
 
-/* Letter system */
+/* Letter positioned at mouth of envelope */
 .letter-wrap{
 position:absolute;
 left:50%;
-bottom:0;
-transform:translate(-50%,100%); /* benar-benar di dalam envelope */
+top:110px; /* posisi mulut envelope */
+transform:translate(-50%,100%);
 transition:transform .9s cubic-bezier(.22,1,.36,1);
 z-index:2;
 }
 
 .peek{
-transform:translate(-50%,35%); /* keluar sedikit dari mulut envelope */
+transform:translate(-50%,20%);
 }
 
 .full{
-transform:translate(-50%,-15%); /* keluar penuh di atas envelope */
+transform:translate(-50%,-60%);
 }
 
 .letter{
@@ -145,27 +143,17 @@ padding:20px;
 text-align:center;
 }
 
-/* Fly from OUTSIDE envelope */
+/* Fly outside envelope */
 .fly{
-animation:flyReal 2s cubic-bezier(.22,1,.36,1) forwards;
+animation:flyOutside 2s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-@keyframes flyReal{
-0%{
-transform:translate(-50%,-15%) scale(1) rotate(0deg);
-}
-30%{
-transform:translate(-60%,-120%) scale(1.05) rotate(-6deg);
-}
-60%{
-transform:translate(-45%,-220%) scale(1.1) rotate(5deg);
-}
-80%{
-transform:translate(-50%,-300%) scale(1.18) rotate(-2deg);
-}
-100%{
-transform:translate(-50%,-380%) scale(1.25) rotate(0deg);
-}
+@keyframes flyOutside{
+0%{transform:scale(1) rotate(0);}
+30%{transform:translate(-40px,-120px) scale(1.05) rotate(-6deg);}
+60%{transform:translate(30px,-250px) scale(1.1) rotate(5deg);}
+80%{transform:translate(-10px,-350px) scale(1.18) rotate(-2deg);}
+100%{transform:translate(0,-450px) scale(1.25) rotate(0);}
 }
 
 /* Blur */
@@ -179,7 +167,6 @@ transition:.6s;
 z-index:2;
 pointer-events:none;
 }
-
 .blur.active{opacity:1;}
 
 .shake{animation:shake .4s;}
@@ -198,9 +185,6 @@ border:none;
 border-radius:20px;
 cursor:pointer;
 }
-
-.yes{background:#ff4d6d;color:white;font-weight:bold;}
-.no{background:#ddd;}
 </style>
 </head>
 
@@ -231,7 +215,7 @@ cursor:pointer;
 const PASSWORD="220724";
 let opened=false;
 
-/* hearts */
+/* Hearts generator */
 setInterval(()=>{
 let h=document.createElement("div");
 h.className="heart";
@@ -241,7 +225,7 @@ document.getElementById("hearts").appendChild(h);
 setTimeout(()=>h.remove(),15000);
 },1200);
 
-/* open envelope */
+/* Open envelope */
 document.getElementById("card").addEventListener("click", function(e){
 if(e.target.closest(".letter")) return;
 
@@ -254,7 +238,7 @@ opened=true;
 }
 });
 
-/* password */
+/* Password logic */
 function checkPass(e){
 e.stopPropagation();
 
@@ -266,9 +250,18 @@ wrap.classList.remove("peek");
 wrap.classList.add("full");
 
 setTimeout(()=>{
+
+/* pindahkan keluar envelope supaya tidak kena overflow */
+document.body.appendChild(wrap);
+
+wrap.style.position="fixed";
+wrap.style.left=window.innerWidth/2+"px";
+wrap.style.top=window.innerHeight/2+"px";
+wrap.style.transform="translate(-50%,-50%)";
+
 wrap.classList.add("fly");
 document.getElementById("blur").classList.add("active");
-startQuestion();
+
 },900);
 
 }else{
@@ -277,40 +270,12 @@ letter.classList.add("shake");
 setTimeout(()=>letter.classList.remove("shake"),400);
 }
 }
-
-/* typewriter */
-function startQuestion(){
-const text="Will you be my Valentine?";
-let i=0;
-
-document.getElementById("letterContent").innerHTML="<h2 id='typed'></h2><div id='btns'></div>";
-
-function type(){
-if(i<text.length){
-document.getElementById("typed").innerHTML+=text[i];
-i++;
-setTimeout(type,55);
-}else{
-document.getElementById("btns").innerHTML=
-"<button class='yes' onclick='goGift()'>YES 💘</button>"+
-"<button class='no' onclick='forceYes()'>NO</button>";
-}
-}
-type();
-}
-
-function goGift(){
-window.location.href="gift.html";
-}
-
-function forceYes(){
-alert("You don't have that option 😌");
-}
 </script>
 
 </body>
 </html>
->
+
+
 
 
 
