@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Letter 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#2b0f19,#3d1e2f,#1c0b13);
+font-family:Montserrat;
+color:white;
+}
+
+/* Letter Card */
+.card{
+background:white;
+color:#2b0f19;
+width:450px;
+padding:40px;
+border-radius:20px;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+text-align:center;
+transform:scale(.9);
+opacity:0;
+animation:fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn{
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+h2{
+font-family:'Playfair Display', serif;
+margin-bottom:20px;
+}
+
+#text{
+font-size:1.1rem;
+line-height:1.7;
+min-height:140px;
+}
+
+/* Yes Button */
+.button{
+margin-top:25px;
+padding:12px 40px;
+border-radius:40px;
+border:none;
+background:#c9184a;
+color:white;
+cursor:pointer;
+font-weight:bold;
+display:none;
+transition:.3s;
+}
+
+.button:hover{
+background:#a4133c;
+transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>For You 💖</h2>
+<div id="text"></div>
+<button class="button" id="yesBtn" onclick="goNext()">Yes 💘</button>
+</div>
+
+<script>
+
+const message = `
+From the moment I met you,
+everything felt different.
+
+Even when distance separates us,
+my heart always finds its way back to you.
+
+Today is just another reminder
+of how grateful I am to have you.
+
+And I made this little space,
+just to ask you something...
+`;
+
+let i = 0;
+const speed = 40;
+
+function typeWriter(){
+if(i < message.length){
+document.getElementById("text").innerHTML += message.charAt(i);
+i++;
+setTimeout(typeWriter, speed);
+}else{
+setTimeout(showQuestion, 500);
+}
+}
+
+function showQuestion(){
+document.getElementById("text").innerHTML += `
+<br><br><strong>Will you be my Valentine? 💖</strong>
+`;
+document.getElementById("yesBtn").style.display="inline-block";
+}
+
+function goNext(){
+window.location.href="gift.html";
+}
+
+typeWriter();
+
+</script>
+
+</body>
+</html>
