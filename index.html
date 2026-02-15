@@ -23,75 +23,28 @@ background:rgba(0,0,0,.35);z-index:-1;
 /* vignette */
 body::after{
 content:"";position:fixed;inset:0;
-background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.5));
+background:radial-gradient(circle at center, transparent 60%, rgba(0,0,0,.4));
 pointer-events:none;z-index:1;
 }
 
-/* cinematic intro */
-.cinematic-overlay{
-position:fixed;inset:0;background:black;
-z-index:20;animation:cinematicOpen 2s ease forwards;
-}
-@keyframes cinematicOpen{
-0%{opacity:1;}
-100%{opacity:0;}
-}
-
-/* ===== Elegant Title ===== */
+/* ===== CLEAN ELEGANT TITLE ===== */
 .valentine-title{
 position:fixed;
 top:70px;
 width:100%;
 text-align:center;
 font-family:'Playfair Display', serif;
-font-size:3.2rem;
-letter-spacing:6px;
-background:linear-gradient(90deg,#fff,#ffd6e0,#fff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+font-size:3rem;
+letter-spacing:4px;
+color:#ffe5ec;
 opacity:0;
-animation:fadeUp 2s ease forwards 1s;
+animation:fadeUp 2s ease forwards 0.8s;
 z-index:10;
 }
+
 @keyframes fadeUp{
 0%{opacity:0;transform:translateY(30px);}
 100%{opacity:1;transform:translateY(0);}
-}
-
-/* shimmer */
-.valentine-title::after{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
-animation:shine 4s infinite;
-}
-@keyframes shine{
-0%{left:-100%;}
-100%{left:100%;}
-}
-
-/* Sparkle light particle */
-.sparkle{
-position:fixed;
-width:12px;height:12px;
-pointer-events:none;
-background:radial-gradient(circle,
-rgba(255,255,255,1) 0%,
-rgba(255,255,255,.6) 30%,
-rgba(255,255,255,.2) 60%,
-transparent 80%);
-border-radius:50%;
-opacity:0;
-animation:sparkleAnim 3s ease forwards;
-}
-@keyframes sparkleAnim{
-0%{opacity:0;transform:scale(.5);}
-30%{opacity:1;}
-100%{opacity:0;transform:translateY(-30px) scale(1.5);}
 }
 
 /* Hearts */
@@ -106,7 +59,8 @@ to{transform:translateY(110vh) rotate(360deg);}
 /* Envelope */
 .card{
 width:360px;height:260px;
-position:relative;cursor:pointer;z-index:5;
+position:relative;
+z-index:5;
 }
 .envelope{
 width:100%;height:100%;position:absolute;bottom:0;
@@ -115,11 +69,12 @@ box-shadow:0 15px 40px rgba(0,0,0,.3);
 overflow:hidden;z-index:2;
 }
 .flap{
-position:absolute;top:-2px;left:0;width:100%;height:55%;
+position:absolute;top:0;left:0;width:100%;height:55%;
 background:#ff6b81;
 clip-path:polygon(0 0,100% 0,50% 100%);
 transform-origin:top;
-transition:.8s;z-index:3;
+transition:transform .8s ease;
+z-index:3;
 }
 .open .flap{
 transform:rotateX(180deg);
@@ -133,7 +88,7 @@ width:85%;height:200px;background:#fff;
 border-radius:10px;
 box-shadow:0 10px 30px rgba(0,0,0,.2);
 padding:20px;text-align:center;
-transition:1s;z-index:1;
+z-index:1;
 }
 
 /* Flying animation */
@@ -143,22 +98,23 @@ left:50%;top:50%;
 width:420px !important;
 height:320px !important;
 padding:30px !important;
-transform:translate(-50%,-50%) rotate(-20deg) scale(.6);
-animation:flyOut 1.8s ease forwards;
+transform:translate(-50%,-50%) rotate(-15deg) scale(.7);
+animation:flyOut 1.5s ease forwards;
 z-index:50;
 }
 @keyframes flyOut{
-0%{transform:translate(-50%,-10%) rotate(-25deg) scale(.5);opacity:0;}
-40%{transform:translate(-50%,-60%) rotate(15deg) scale(.7);opacity:1;}
-70%{transform:translate(-50%,-50%) rotate(-5deg) scale(1.05);}
-100%{transform:translate(-50%,-50%) rotate(0deg) scale(1);}
+0%{opacity:0;}
+100%{
+opacity:1;
+transform:translate(-50%,-50%) rotate(0deg) scale(1);
+}
 }
 
 /* Blur background */
 .blur-bg{
 position:fixed;inset:0;
-backdrop-filter:blur(8px);
-background:rgba(0,0,0,.4);
+backdrop-filter:blur(6px);
+background:rgba(0,0,0,.35);
 z-index:40;
 }
 
@@ -175,7 +131,6 @@ cursor:pointer;font-weight:bold;
 
 <body>
 
-<div class="cinematic-overlay"></div>
 <h1 class="valentine-title">Happy Valentine's Day</h1>
 <div class="hearts"></div>
 
@@ -184,10 +139,12 @@ cursor:pointer;font-weight:bold;
     <div id="letterContent">
       <h2>Enter Password 💖</h2>
       <input type="password" id="pass" placeholder="tanggal jadian kakk...">
-      <button onclick="checkPass(event)">Open 🎁</button>
+      <button onclick="checkPass()">Open 🎁</button>
     </div>
   </div>
-  <div class="envelope"><div class="flap"></div></div>
+  <div class="envelope">
+    <div class="flap"></div>
+  </div>
 </div>
 
 <script>
@@ -204,26 +161,14 @@ document.querySelector(".hearts").appendChild(h);
 setTimeout(()=>h.remove(),8000);
 },300);
 
-/* Sparkle */
-function createSparkle(){
-const sparkle=document.createElement("div");
-sparkle.classList.add("sparkle");
-const title=document.querySelector(".valentine-title");
-const rect=title.getBoundingClientRect();
-sparkle.style.left=(rect.left + Math.random()*rect.width)+"px";
-sparkle.style.top=(rect.top + Math.random()*rect.height)+"px";
-document.body.appendChild(sparkle);
-setTimeout(()=>sparkle.remove(),3000);
-}
-setInterval(createSparkle,600);
-
 /* Password */
-function checkPass(e){
-e.stopPropagation();
+function checkPass(){
 if(document.getElementById("pass").value===PASSWORD){
 
+// buka envelope
 document.querySelector(".card").classList.add("open");
 
+// tunggu flap buka
 setTimeout(()=>{
 const letter=document.querySelector(".letter");
 letter.classList.add("fly");
@@ -232,7 +177,7 @@ const blur=document.createElement("div");
 blur.classList.add("blur-bg");
 document.body.appendChild(blur);
 
-setTimeout(()=>startLetter(),1500);
+setTimeout(()=>startLetter(),1200);
 
 },800);
 
@@ -245,6 +190,7 @@ alert("Wrong password 😝");
 function startLetter(){
 const text="Hi love...\nEven distance can't stop what I feel for you.\nWill you be my Valentine? 💖";
 let i=0;
+
 document.getElementById("letterContent").innerHTML="<h2 id='typeText'></h2><div id='question' style='display:none;margin-top:15px;'></div>";
 
 function typeWriter(){
@@ -277,5 +223,6 @@ btn.style.top=Math.random()*150+"px";
 
 </body>
 </html>
+
 
 
