@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>For You 💌</title>
@@ -8,99 +8,138 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Montserrat;}
+
 body{
-  height:100vh;display:flex;justify-content:center;align-items:center;
-  background:url('bg.jpeg') center/cover no-repeat;overflow:hidden;
-  position:relative;
-  background-color:black;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:url('bg.jpeg') center/cover no-repeat;
+overflow:hidden;
+position:relative;
 }
-/* overlay */
+
 body::before{
-  content:"";position:absolute;inset:0;
-  background:rgba(0,0,0,0.6);
-  z-index:1;
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.55);
 }
 
-/* TITLE */
-h1.title{
-  position:absolute;top:40px;width:100%;
-  text-align:center;font-family:'Playfair Display',serif;
-  font-size:2.8rem;color:#fff;z-index:3;
+/* Title */
+.title{
+position:absolute;
+top:60px;
+width:100%;
+text-align:center;
+font-family:'Playfair Display', serif;
+font-size:3rem;
+color:white;
+letter-spacing:3px;
+z-index:3;
 }
 
-/* WRAPPER */
+/* Scene */
 .scene{
-  position:relative;width:360px;height:260px;
-  z-index:4;cursor:pointer;
+position:relative;
+width:360px;
+height:260px;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:4;
+cursor:pointer;
 }
 
-/* ENVELOPE */
+/* Envelope */
 .envelope{
-  position:absolute;inset:0;
-  background:#d32f2f;border-radius:0 0 20px 20px;
-  overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.5);
+position:absolute;
+width:360px;
+height:260px;
+background:#c9184a;
+border-radius:0 0 20px 20px;
 }
+
 .flap{
-  position:absolute;top:0;width:100%;height:55%;
-  background:#e53935;clip-path:polygon(0 0,100% 0,50% 100%);
-  transform-origin:top;transition:transform .6s ease;
-  z-index:5;
+position:absolute;
+top:0;
+width:100%;
+height:55%;
+background:#ff4d6d;
+clip-path:polygon(0 0,100% 0,50% 100%);
+transform-origin:top;
+transition:.8s cubic-bezier(.22,1,.36,1);
+z-index:5;
 }
 
-/* LETTER */
+.open .flap{
+transform:rotateX(180deg);
+}
+
+/* Letter */
 .letter{
-  position:absolute;left:50%;top:50%;
-  width:300px;height:200px;
-  background:#fff;border-radius:12px;
-  box-shadow:0 15px 40px rgba(0,0,0,.4);
-  transform:translate(-50%,120%) rotateX(15deg);
-  transform-style:preserve-3d;
-  transition:transform .8s cubic-bezier(.22,1,.36,1);
-  display:flex;flex-direction:column;align-items:center;
-  padding:20px;text-align:center;
-  z-index:6;
+position:absolute;
+width:300px;
+height:200px;
+background:white;
+border-radius:15px;
+box-shadow:0 20px 50px rgba(0,0,0,.5);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:25px;
+transition:transform .8s cubic-bezier(.22,1,.36,1);
+transform:translateY(60px);
+z-index:4;
 }
 
-/* PEEK – keluar setengah */
+/* Peek from envelope */
 .peek{
-  transform:translate(-50%,40%) rotateX(10deg);
+transform:translateY(10px);
 }
 
-/* FULL – keluar penuh */
+/* Full keluar */
 .full{
-  transform:translate(-50%,-40%) rotateX(0deg);
+transform:translateY(-70px);
 }
 
-/* FLY – terbang ringan */
-@keyframes flyTikTok {
-  0% {transform:translate(-50%,-40%) rotateX(0deg) scale(1);}
-  25%{transform:translate(-50%,-80%) rotate(-3deg) scale(1.05);}
-  50%{transform:translate(-50%,-120%) rotate(3deg) scale(1.1);}
-  75%{transform:translate(-50%,-160%) rotate(-2deg) scale(1.12);}
-  100%{transform:translate(-50%,-200%) rotate(0) scale(1.15);}
+/* Cinematic floating */
+@keyframes floatUp {
+0%   {transform:translateY(-70px) rotate(0deg) scale(1);}
+25%  {transform:translateY(-90px) rotate(-2deg) scale(1.02);}
+50%  {transform:translateY(-110px) rotate(2deg) scale(1.05);}
+75%  {transform:translateY(-125px) rotate(-1deg) scale(1.08);}
+100% {transform:translateY(-140px) rotate(0deg) scale(1.1);}
 }
+
 .fly{
-  animation:flyTikTok 2s cubic-bezier(.4,0,.2,1) forwards;
+animation:floatUp 2s cubic-bezier(.22,1,.36,1) forwards;
 }
 
 /* Blur */
 .blur{
-  position:absolute;inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(8px);
-  opacity:0;transition:.6s;
-  z-index:2;
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.7);
+backdrop-filter:blur(8px);
+opacity:0;
+transition:.8s ease;
+z-index:2;
 }
 .blur.active{opacity:1;}
 
-/* Answers */
-.answer-btn{
-  margin-top:15px;font-weight:bold;
-  padding:8px 20px;border:none;
-  border-radius:20px;cursor:pointer;
+button{
+margin-top:12px;
+padding:8px 20px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
 }
-.yes{background:#e53935;color:white;}
-.no{background:#999;color:white;}
+
+.yes{background:#ff4d6d;color:white;}
+.no{background:#ccc;}
 </style>
 </head>
 
@@ -109,14 +148,15 @@ h1.title{
 <h1 class="title">Happy Valentine's Day</h1>
 
 <div class="scene" id="scene">
-  <div class="envelope"></div>
-  <div class="flap"></div>
 
-  <div class="letter" id="letter">
-    <h3>Enter Password 💖</h3>
-    <input type="password" id="pass">
-    <button onclick="checkPass(event)">Open</button>
-  </div>
+<div class="envelope"></div>
+<div class="flap"></div>
+
+<div class="letter" id="letter">
+<h3>Enter Password 💖</h3>
+<input type="password" id="pass">
+<button onclick="checkPass(event)">Open</button>
+</div>
 
 </div>
 
@@ -126,63 +166,66 @@ h1.title{
 const PASSWORD="220724";
 let opened=false;
 
-document.getElementById("scene").addEventListener("click",(e) => {
-  if(e.target.closest(".letter")) return;
-  if(opened) return;
+document.getElementById("scene").addEventListener("click",(e)=>{
+if(e.target.closest(".letter")) return;
+if(opened) return;
 
-  document.getElementById("scene").classList.add("open");
-  document.querySelector(".flap").style.transform="rotateX(180deg)";
+document.getElementById("scene").classList.add("open");
 
-  setTimeout(()=>{
-    document.getElementById("letter").classList.add("peek");
-  },500);
+setTimeout(()=>{
+document.getElementById("letter").classList.add("peek");
+},600);
 
-  opened=true;
+opened=true;
 });
 
 function checkPass(e){
-  e.stopPropagation();
-  const inEl = document.getElementById("pass");
+e.stopPropagation();
 
-  if(inEl.value===PASSWORD){
-    let letter = document.getElementById("letter");
+if(document.getElementById("pass").value===PASSWORD){
 
-    letter.classList.remove("peek");
-    letter.classList.add("full");
+let letter=document.getElementById("letter");
 
-    setTimeout(()=>{
-      document.querySelector(".envelope").style.display="none";
-      document.querySelector(".flap").style.display="none";
-      letter.classList.add("fly");
-    },600);
+letter.classList.remove("peek");
+letter.classList.add("full");
 
-    setTimeout(()=>{ document.getElementById("blur").classList.add("active"); showQuestion(); },2000);
+setTimeout(()=>{
+document.querySelector(".envelope").style.display="none";
+document.querySelector(".flap").style.display="none";
+letter.classList.add("fly");
+document.getElementById("blur").classList.add("active");
+},700);
 
-  } else {
-    alert("Wrong 😝 Try again!");
-  }
+setTimeout(()=>{
+showQuestion();
+},2200);
+
+}else{
+alert("Wrong password 😝");
+}
 }
 
 function showQuestion(){
-  let letter = document.getElementById("letter");
-  letter.innerHTML=`
-    <h2>Will you be my Valentine?</h2>
-    <button class="answer-btn yes" onclick="goGift()">Yes 💘</button>
-    <button class="answer-btn no" onclick="forceYes()">No</button>
-  `;
+let letter=document.getElementById("letter");
+letter.innerHTML=`
+<h2>Will you be my Valentine?</h2>
+<button class="yes" onclick="goGift()">Yes 💖</button>
+<button class="no" onclick="forceYes()">No</button>
+`;
 }
 
 function goGift(){
-  window.location.href="gift.html";
+window.location.href="gift.html";
 }
 
 function forceYes(){
-  alert("You really do love 💕");
+alert("No is not an option 😌💕");
 }
 </script>
 
 </body>
 </html>
+
 
 
 
